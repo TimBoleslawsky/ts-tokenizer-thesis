@@ -11,6 +11,11 @@ x
 
 ## Implementation Details
 
+### Why use TCRAE as baseline? 
+The TCN–RNN autoencoder is a representative of state-of-the-art continuous-latent neural time-series compression (discrete-latent compression methods barely exist for time-series data. And if they do (Deep Dict) they are not really reproducible). Compared to vanilla autoencoders, TCN–RNN architectures are explicitly designed for long temporal dependencies and have demonstrated stronger rate–distortion performance in recent peer-reviewed work. This allows us to evaluate our tokenizer-based approach against a competitive neural compressor rather than a toy model. This methods is also suitable because of its costly architectural design: deep temporal convolutional stacks with large receptive fields, recurrent (often sequential) decoding, attention mechanisms, and dense continuous latent representations. These components typically lead to increased FLOPs, higher activation memory, and longer inference latency compared to discrete, token-based compression methods. 
+
+### Implementation Overview
+
 | Compression Stage | TCRAE (TCN–RNN AE) | Tokenization-based Compression |
 |------------------|-------------------|--------------------------------|
 | Input signal | Continuous time series | Continuous time series |
