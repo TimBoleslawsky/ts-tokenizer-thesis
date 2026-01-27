@@ -15,7 +15,7 @@
   units optimized for downstream tasks.
   - Develop lightweight entropy modeling and coding schemes tailored to the tokenized representations.
   - Develop a decoder.
-    - => Create a more detailed plan for the implementation ??? 
+    - => Create a more detailed plan for the implementation. See other note. 
   - Write the halftime report. 
   - Write the theory part of the final report.
 - Stage 3, Experiments: (Week 11-13, Deadline: 17.04.)
