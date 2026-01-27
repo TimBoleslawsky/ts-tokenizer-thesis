@@ -71,6 +71,8 @@ A single linear layer predicting one value.
 	•	Classification (anomaly detection):
 A single linear layer predicting normal vs. anomalous.
 
+This ensures that any performance difference comes from the compressed representation, not from downstream model capacity.
+
 ### Metrics
     - Reconstruction error ???
     - Compression rate ???
@@ -81,5 +83,3 @@ A single linear layer predicting normal vs. anomalous.
       -	Computational cost: FLOPs per fixed-length input window
       -	Inference latency: wall-clock encoding and decoding time
       -	Memory footprint: peak memory usage during inference
-
-This ensures that any performance difference comes from the compressed representation, not from downstream model capacity.
