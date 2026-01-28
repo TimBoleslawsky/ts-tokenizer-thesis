@@ -24,7 +24,7 @@
 ## ToDo's
 - Stage 1:
   - Setting up the project plan repo (Emrik).
-  - Take everything from proposal that is appropriate (Emrik).
+  - Take everything from proposal that is appropriate/ still relevant (Emrik).
   - Reformulate problem and method.
       - Rough implementation plan for baseline compression technique (Tim).
       - Rough implementation plan for tokenization framework. => answer the question of how task-aware it should be.
