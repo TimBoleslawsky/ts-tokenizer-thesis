@@ -27,17 +27,13 @@ The TCN–RNN autoencoder is a representative of state-of-the-art continuous-lat
 | Entropy coding | ❌ Not used | ✔️ Arithmetic / ANS coding |
 | Compression control | Architectural bottleneck | Token granularity + entropy |
 | Output representation | Latent tensors | Bitstream |
-| Compression metric | Proxy (latent size) | True bits per sample |
-| Pipeline completeness | Partial (transform only) | Full neural codec |
 
 ### Detailed Implementation: TCRAE (TCN–RNN Autoencoder)
 
 1. Input handling and preprocessing
-	•	Multivariate time-series data are segmented into fixed-length windows.
-	•	Each channel is normalized independently using statistics computed on the training set.
-	•	Windows are treated as independent samples during training and evaluation.
-
-⸻
+- Multivariate time-series data are segmented into fixed-length windows.
+- Each channel is normalized independently using statistics computed on the training set.
+- Windows are treated as independent samples during training and evaluation.
 
 2. TCN encoder (transform coding stage)
 	•	The encoder consists of a stack of Temporal Convolutional Network (TCN) blocks with increasing dilation factors.
@@ -94,58 +90,46 @@ Training objective:
 
 ### Detailed Implementation: Tokenization-Based Compression
 
+#### Layer 1: Representation Learning
+
 1. Input handling and preprocessing
-	•	Identical preprocessing and windowing as used for TCRAE to ensure comparability.
-	•	Normalization statistics are shared across methods.
+- Identical preprocessing and windowing as used for TCRAE to ensure comparability.
+- Normalization, segmentation, ...
 
-⸻
-
-2. Lightweight encoder (feature extraction)
+2. Lightweight encoder 
 - A shallow neural encoder (e.g., small CNN or MLP applied per timestep) maps the input signal to intermediate embeddings.
 - The encoder is intentionally kept lightweight to avoid introducing heavy representational power before tokenization.
-- Intuition: The encoder implements the learned transform stage of a lossy compression pipeline. Its purpose is not to predict labels or reconstruct the input per se, but to reshape the data into a representation that can be efficiently discretized.
+- The encoder implements the learned transform stage of a lossy compression pipeline. Its purpose is not to predict labels or reconstruct the input per se, but to reshape the data into a representation that can be efficiently discretized. Specifically, the encoder learns a mapping that:
+ - Removes redundancy and correlations present in the raw time series
+ - Concentrates important information into a low-dimensional, stable representation
+ - Aligns the geometry of the representation space with the constraints of quantization
+ - The objective is usually joined with the quantization and decoder stages.
+ - In contrast to autoencoder-based methods, where the encoder is free to produce high-entropy continuous latents, the encoder here is explicitly shaped to produce quantization-friendly representations that support discrete tokenization and entropy coding.
 
-Specifically, the encoder learns a mapping that:
-	•	Removes redundancy and correlations present in the raw time series
-	•	Concentrates important information into a low-dimensional, stable representation
-	•	Aligns the geometry of the representation space with the constraints of quantization
+3. Vector quantization / tokenization
+ - Intermediate embeddings are discretized using a learned codebook. The codebook very simply looks like this: codebook = nn.Parameter(torch.randn(K, D)), with K = number of tokens and D = embedding dimension.
+ - Each embedding vector is replaced by the index of its nearest codebook entry.
+   - distances = ||z - codebook||² then q = argmin(distances) then z_q = codebook[q]; q is an integer index (the token), z_q has the same shape as z (continuous vector) and "replaces" z. 
+ - This step introduces the only explicit source of information loss.
+ - The output is a sequence of discrete token IDs drawn from a finite vocabulary.
+ - How backpropagation/ learning works:
+   - x → encoder → z
+   - z → nearest neighbor → q
+   - q → codebook lookup → z_q
+   - z_q → head → y_hat (the head is completely replaceable; decoder, if we want reconstruction; downstream head, if we want downstream task error)
+   - Threeway loss computation:
+     - Loss => head: Gradients flow normally into the head parameters.
+     - Loss => z_q: 
 
-Although a decoder and reconstruction loss may be used during training, reconstruction is not the task objective; it serves only as a proxy to measure distortion and provide a learning signal. The encoder is instead optimized under a rate–distortion trade-off, encouraging representations that are robust to quantization and reusable across similar signal segments.
-
-In contrast to autoencoder-based methods, where the encoder is free to produce high-entropy continuous latents, the encoder here is explicitly shaped to produce quantization-friendly representations that support discrete tokenization and entropy coding.
-
-⸻
-
-4. Vector quantization / tokenization
-	•	Intermediate embeddings are discretized using a learned codebook.
-	•	Each embedding vector is replaced by the index of its nearest codebook entry.
-	•	This step introduces the only explicit source of information loss.
-	•	The output is a sequence of discrete token IDs drawn from a finite vocabulary.
-
-Outcome:
-A symbolic representation of the time series suitable for storage, transmission, or direct consumption by downstream models.
-
-⸻
+#### Laysr 2: Entropy modeling & coding
 
 4. Entropy modeling
-	•	A learned probabilistic model estimates the distribution of token sequences.
-	•	Contextual dependencies between tokens may be modeled autoregressively or using lightweight temporal context.
-	•	The entropy model defines the expected bitrate of the representation.
-
-⸻
+ - A learned probabilistic model estimates the distribution of token sequences.
+ - What architecture is commonly used/ should be used here ???
+ - The entropy model defines the expected bitrate of the representation.
 
 5. Entropy coding
-	•	Tokens are compressed into a bitstream using a standard entropy coder (e.g., arithmetic coding or ANS).
-	•	Frequently occurring tokens receive shorter codes, resulting in efficient compression.
-	•	The resulting bitstream represents the final compressed output.
-
-⸻
-
-6. Compression characteristics (tokenization)
-	•	Compression rate is measured in true bits per sample or bits per second.
-	•	Rate is controlled via:
-	•	Codebook size
-	•	Token sequence length
-	•	Entropy model capacity
-	•	The method implements a complete neural compression pipeline.
+ - Tokens are compressed into a bitstream using a standard entropy coder (e.g., arithmetic coding or ANS).
+ - Frequently occurring tokens receive shorter codes, resulting in efficient compression.
+ - The resulting bitstream represents the final compressed output.
 
