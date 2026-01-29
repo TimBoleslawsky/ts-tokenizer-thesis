@@ -22,17 +22,18 @@
   - Write the methodology, results, discussion, and conclusion part fo the final report. 
 
 ## ToDo's
-- Stage 1:
-  - Setting up the project plan repo (Emrik).
+- Stage 1: 
+  - Setting up the project plan repo => Done.
   - Take everything from proposal that is appropriate/ still relevant (Emrik).
   - Reformulate problem and method.
-      - Rough implementation plan for baseline compression technique (Tim).
-      - Rough implementation plan for tokenization framework. => answer the question of how task-aware it should be.
-      - Outline of the experiment setup. 
+      - Rough implementation plan for baseline compression technique.
+      - Rough implementation plan for tokenization framework. 
+      => How task aware should our implementation be and do we need to do layer 2?
+      - Detailing the experiment setup (Tim). 
   - Add Limitations, Risk analyis, and time plan.
   - Define the downstream task: Find and define an anomaly task and/or regression (which data/ columns/ ... to use) and build a small RNN model as baseline (Tim). => Meeting on Monday. 
   - Figure out how much of Volvos data can we show (Tim). => We can plot some data as examples, but we cannot release a dataset!
-  - Look for an open-source dataset that can serve the same purpose (Emrik).
+  - Look for an open-source dataset that can serve the same purpose => Ask Yinan about this.
 - Stage 2:
   - ...
 
