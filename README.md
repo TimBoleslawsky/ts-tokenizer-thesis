@@ -23,17 +23,16 @@
 
 ## ToDo's
 - Stage 1: 
-  - Setting up the project plan repo => Done.
-  - Take everything from proposal that is appropriate/ still relevant (Emrik).
-  - Reformulate problem and method.
-      - Rough implementation plan for baseline compression technique.
-      - Rough implementation plan for tokenization framework. 
-      => How task aware should our implementation be and do we need to do layer 2?
-      - Detailing the experiment setup (Tim). 
-  - Add Limitations, Risk analyis, and time plan.
-  - Define the downstream task: Find and define an anomaly task and/or regression (which data/ columns/ ... to use) and build a small RNN model as baseline (Tim). => Meeting on Monday. 
-  - Figure out how much of Volvos data can we show (Tim). => We can plot some data as examples, but we cannot release a dataset!
-  - Look for an open-source dataset that can serve the same purpose => Ask Yinan about this.
+  - Finalize Background (Emrik).
+  - Finalize Aim (Emrik).
+  - Write Problem Formulation (Emrik).
+  - Write Limitations (Emrik).
+  - Write Methodology (Tim).
+    - Define downstream taks more clearly
+    - Validate and write about the open source dataset. 
+  - Write Risk analysis (Tim).
+  - Write Time plan (Tim).
+  - Work on the implementation of the downstream task (Tim). 
 - Stage 2:
   - ...
 
