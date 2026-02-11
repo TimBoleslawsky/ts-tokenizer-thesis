@@ -25,7 +25,11 @@
 - Stage 1: 
   - Convert timeline into table. (Tim)
   - Work on the implementation of the downstream task.
-    - ...
+    - Test Dataloader for trino data. (Tim)
+    - Implement Dataloader for .csv data. (Wait for Szabolcs)
+    - Implement Dataloader for public data. (Emrik)
+    - Test regression model. 
+    - Implement anomaly detection model. 
 - Stage 2:
   - ...
 
