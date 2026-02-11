@@ -23,7 +23,7 @@
 
 ## ToDo's
 - Stage 1: 
-  - Convert timeline into table. (Tim)
+  - Convert timeline into table, Setup Repository in Volvo, Setup the Repo for Compression, Setup the repo for Report (Tim).
   - Work on the implementation of the downstream task.
     - Test Dataloader for trino data. (Tim)
     - Implement Dataloader for .csv data. (Wait for Szabolcs)
