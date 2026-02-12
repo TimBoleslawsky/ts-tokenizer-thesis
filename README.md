@@ -11,8 +11,8 @@
 
 ## ToDo's
 - Stage 1: 
-  - Setup environment: Artifactory, Volvo Chatgpt, VPN, Kubernetes, Repository for Signet. 
-  - Convert timeline into table, Setup Repository in Volvo, Setup the Repo for Compression, Setup the repo for Report (Tim).
+  - Setup environment: Volvo Chatgpt, VPN, Kubernetes, Repository for Signet. 
+  - Setup the Repo for Compression (Tim).
   - Work on the implementation of the downstream task.
     - Test Dataloader for trino data. (Tim)
     - Implement Dataloader for .csv data. (Wait for Szabolcs)
