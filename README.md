@@ -11,8 +11,7 @@
 
 ## ToDo's
 - Stage 1: 
-  - Write a chapter on ethical concerns (Emrik). 
-  - Setup environment: Volvo Chatgpt, VPN, Kubernetes, Repository for Signet. 
+  - Setup environment: Kubernetes, Repository for Signet. 
   - Setup the Repo for Compression (Tim).
   - Work on the implementation of the downstream task.
     - Test Dataloader for trino data. (Tim)
