@@ -1,0 +1,44 @@
+name: Build LaTeX PDF
+
+permissions:
+  contents: write
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Install LaTeX
+        run: sudo apt-get update && sudo apt-get install -y texlive-latex-base texlive-latex-extra texlive-fonts-recommended latexmk
+
+      - name: Build PDF
+        run: latexmk -pdf -interaction=nonstopmode thesis.tex
+
+      - name: Save PDF into build/ and commit to repo
+        run: |
+          mkdir -p build
+          if [ -f thesis.pdf ]; then
+            mv thesis.pdf build/thesis.pdf
+          else
+            echo "thesis.pdf not found"; exit 1
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # force-add the PDF even if it's listed in .gitignore
+          git add -f build/thesis.pdf || true
+          if ! git diff --cached --quiet; then
+            git commit -m "ci: add/update built thesis.pdf"
+            git push origin HEAD:main
+          else
+            echo "No changes to commit"
+          fi

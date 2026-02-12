@@ -1,0 +1,13 @@
+.out
+.vscode
+
+thesis.aux
+thesis.log
+thesis.bbl
+thesis.blg
+thesis.bcf
+thesis.run.xml
+thesis.fdb_latexmk
+thesis.fls
+thesis.synctex.gz
+thesis.pdf

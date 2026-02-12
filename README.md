@@ -1,28 +1,17 @@
 # ts-tokenizer-thesis
 
-## Plan
-- Stage 1, Setup and Preparation: (Week 1-5, Deadline: 20.02.)
-  - Create a project plan. (Deadline: 13.02.)
-  - Create a working environment. 
-  - Train a downstream ML model, representative of a defined subset of industry-relevant tasks,
-  on uncompressed data to quantify loss in predictive utility.
-  - Implement a baseline model based on established neural compression frameworks such as https://www.sciencedirect.com/science/article/pii/S1568494623008153.
-- Stage 2, Development: (Week 6-10, Deadline: 27.03.)
-  - Develop a learnable tokenization module that discretizes data into semantically meaningful
-  units optimized for downstream tasks.
-  - Develop lightweight entropy modeling and coding schemes tailored to the tokenized representations.
-  - Develop a decoder.
-  - Write the halftime report. 
-  - Write the theory part of the final report.
-- Stage 3, Experiments: (Week 11-13, Deadline: 17.04.)
-  - Train the model from Task 1 on the compressed data using both compression methods. 
-  - Evaluate baseline model and proposed tokenization + lightweight entropy model framework based on rate-utility and computational efficiency.
-- Stage 4, Finalizing: (Week 14-17, Deadline: 15.05.)
-  - Ablation study of the proposed tokenization + lightweight entropy model framework. 
-  - Write the methodology, results, discussion, and conclusion part fo the final report. 
+## Project Timeline
+
+| Stage | Time | Description | Deliverables and Milestones |
+|------|------|-------------|-----------------------------|
+| **Stage 1: Setup and Preparation** | Jan 16, 2026 – Feb 27, 2026 | First, we will set up a working environment, and put time into understanding the problem and plan for the project. We will also implement downstream models as well as a baseline compression framework to have a starting point for comparison. | - Project plan document (13.02.)<br>- Two regression downstream models trained on Volvo data and public data (20.02.)<br>- Two classification downstream models trained on Volvo data and public data (27.02.)<br>- Baseline compression framework implementation (27.02.) |
+| **Stage 2: Development** | Feb 28, 2026 – Mar 27, 2026 | Second, we will focus on developing the core components of the proposed compression approach leveraging tokenization. We will also start writing the theory chapters of the thesis and formulize a halftime report. | - Encoder component implementation (13.03.)<br>- Quantization / Tokenization module implementation (13.03.)<br>- Decoder component implementation (13.03.)<br>- Completed theory chapters of the final thesis (20.03.)<br>- Halftime report (27.03.) |
+| **Stage 3: Experiments** | Mar 28, 2026 – Apr 17, 2026 | Third, we will focus on evaluating the performance of the proposed compression method against the baseline model. | - Six compressed datasets using two compression methods (08.04.)<br>- Evaluation results based on compression (08.04.)<br>- Trained downstream models (17.04.)<br>- Evaluation results based on downstream task performance (17.04.) |
+| **Stage 4: Finalizing** | Apr 18, 2026 – May 15, 2026 | Finally, we will conduct an ablation study to understand the contribution of different components of the proposed method, and finalize the thesis document for a first draft. | - Ablation study results (01.05.)<br>- Experiment, Results, Discussion chapter of the thesis (10.05.)<br>- Complete draft of the final thesis (15.05.) |
 
 ## ToDo's
 - Stage 1: 
+  - Setup environment: Artifactory, Volvo Chatgpt, VPN, Kubernetes, Repository for Signet. 
   - Convert timeline into table, Setup Repository in Volvo, Setup the Repo for Compression, Setup the repo for Report (Tim).
   - Work on the implementation of the downstream task.
     - Test Dataloader for trino data. (Tim)
