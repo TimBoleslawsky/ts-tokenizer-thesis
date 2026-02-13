@@ -11,7 +11,6 @@
 
 ## ToDo's
 - Stage 1: 
-  - Setup environment: Kubernetes, Repository for Signet. 
   - Setup the Repo for Compression (Tim).
   - Work on the implementation of the downstream task.
     - Test Dataloader for trino data. (Tim)
