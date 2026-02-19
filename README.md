@@ -11,13 +11,11 @@
 
 ## ToDo's
 - Stage 1: 
-  - Setup the Repo for Compression (Tim).
-  - Work on the implementation of the downstream task.
-    - Implement Dataloader for .csv data. (Tim)
-    - Implement Dataloader for public data. (Emrik)
-    - Implement anomaly detection model. 
+  - Implement our won model in Signet (Tim).
+  - Setup compression framework in new core-ml Repo (Emrik).
+  - Implement baseline compression.
 - Stage 2:
-  - ...
+  - Implement tokenization compression.
 
 
 
