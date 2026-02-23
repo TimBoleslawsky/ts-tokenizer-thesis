@@ -1,5 +1,7 @@
 .out
 .vscode
+.idea
+.vscode
 
 thesis.aux
 thesis.log
@@ -11,3 +13,8 @@ thesis.fdb_latexmk
 thesis.fls
 thesis.synctex.gz
 thesis.pdf
+thesis.lof
+thesis.lot
+thesis.out
+thesis.toc
+_minted
