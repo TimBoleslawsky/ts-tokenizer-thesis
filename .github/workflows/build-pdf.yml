@@ -19,10 +19,19 @@ jobs:
           persist-credentials: true
 
       - name: Install LaTeX
-        run: sudo apt-get update && sudo apt-get install -y texlive-latex-base texlive-latex-extra texlive-fonts-recommended latexmk
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            texlive-latex-base \
+            texlive-latex-extra \
+            texlive-fonts-recommended \
+            texlive-bibtex-extra \
+            latexmk \
+            biber \
+            python3-pygments
 
       - name: Build PDF
-        run: latexmk -pdf -interaction=nonstopmode thesis.tex
+        run: latexmk -pdf -shell-escape -interaction=nonstopmode thesis.tex
 
       - name: Save PDF into build/ and commit to repo
         run: |
