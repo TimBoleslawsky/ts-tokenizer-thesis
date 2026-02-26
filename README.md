@@ -11,11 +11,11 @@
 
 ## ToDo's
 - Stage 1: 
-  - Implement our won model in Signet (Tim).
-  - Setup compression framework in new core-ml Repo (Emrik).
-  - Implement baseline compression.
+  - Implement baseline compression (Tim).
+  - Double check Powerconsumption use cacse with CNN Regressor (Emrik).
 - Stage 2:
-  - Implement tokenization compression.
+  - Implement tokenization compression (Emrik).
+  - Writing theory chapters of the final report. 
 
 
 
