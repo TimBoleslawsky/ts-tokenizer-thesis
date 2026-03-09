@@ -12,7 +12,6 @@
 ## ToDo's
 - Stage 2:
   - Implement tokenization compression (Emrik).
-  - Validate baseline compression (Tim)
   - Writing theory chapters of the final report (Tim). 
 
 
