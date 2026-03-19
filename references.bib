@@ -1,81 +1,103 @@
-@ARTICLE{JeongLLK24X-CANIDS, 
-  author={Jeong, Seonghoon and Lee, Sangho and Lee, Hwejae and Kim, Huy Kang},
-  journal={IEEE Transactions on Vehicular Technology},
-  title={X-CANIDS: Signal-Aware Explainable Intrusion Detection System for Controller Area Network-Based In-Vehicle Network},
-  year={2024},
-  volume={73},
-  number={3},
-  pages={3230--3246},
-  doi={10.1109/TVT.2023.3327275}
-}
-
-@article{bello2019,
-  author  = {Bello, L. L. and Mariani, R. and Mubeen, S. and Saponara, S.},
-  title   = {Recent Advances and Trends in On-Board Embedded and Networked Automotive Systems},
-  journal = {IEEE Transactions on Industrial Informatics},
-  year    = {2019},
-  volume  = {15},
-  pages   = {1038--1051},
-  doi     = {10.1109/tii.2018.2879544}
-}
-
-@book{navet2017,
-  author    = {Navet, N. and Simonot-Lion, F.},
-  title     = {Automotive Embedded Systems Handbook},
+# Theory 
+## In-Vehicle Systems and Event-Triggered Logging
+@book{Lee2017,
+  author    = {Edward A. Lee and Sanjit A. Seshia},
+  title     = {Introduction to Embedded Systems: A Cyber-Physical Systems Approach},
+  edition   = {2nd},
   year      = {2017},
+  publisher = {MIT Press},
+  address   = {Cambridge, MA, USA},
+  note      = {Available at \url{https://ptolemy.berkeley.edu/books/leeseshia/}}
+}
+
+@book{Navet2009,
+  editor    = {Nicolas Navet and Françoise Simonot-Lion},
+  title     = {Automotive Embedded Systems Handbook},
+  year      = {2009},
   publisher = {CRC Press},
-  doi       = {10.1201/9780849380273}
+  address   = {Boca Raton, FL, USA},
+  isbn      = {978-0-8493-8026-6}
 }
 
-@inbook{fairley2019,
-  author    = {Fairley, Richard E.},
-  title     = {Automobile Embedded Real‐Time Systems},
-  booktitle = {Systems Engineering of Software-Enabled Systems},
-  year      = {2019},
-  pages     = {377-389},
-  publisher = {Wiley-IEEE Press},
-  doi       = {10.1002/9781119535041.app2}
+@techreport{MITRE2023,
+  author    = {MITRE Corporation},
+  title     = {Telemetry Data: A Resource for Automotive Safety Insights},
+  year      = {2023},
+  institution = {MITRE},
+  number    = {PR-23-2484},
+  note      = {\url{https://www.mitre.org/sites/default/files/2023-08/PR-23-2484-Telemetry-Data-A-Resource-for-Automotive-Safety-Insights.pdf}}
 }
 
-
-@article{azar2022,
-  author  = {Kamyar Azar and Zohreh Hajiakhondi-Meybodi and Farnoosh Naderkhani},
-  title   = {Semi-supervised Clustering-based Method for Fault Diagnosis and Prognosis: A Case Study},
-  journal = {Reliability Engineering \& System Safety},
-  year    = {2022},
-  volume  = {222},
-  pages   = {108405},
-  doi     = {10.1016/j.ress.2022.108405}
+@techreport{AUTOSAR2022,
+  author    = {AUTOSAR Consortium},
+  title     = {Layered Software Architecture},
+  year      = {2022},
+  institution = {AUTOSAR},
+  number    = {R22-11},
+  note      = {\url{https://www.autosar.org/fileadmin/standards/R22-11/CP/AUTOSAR_EXP_LayeredSoftwareArchitecture.pdf}}
 }
 
-@article{jimenez2020,
-  author  = {Montero Jiménez, Juan José and Schwartz, Sébastien and Vingerhoeds, R. and Grabot, B. and Salaün, M.},
-  title   = {Towards Multi-model Approaches to Predictive Maintenance: A Systematic Literature Survey on Diagnostics and Prognostics},
-  journal = {Journal of Manufacturing Systems},
-  year    = {2020},
-  doi     = {10.1016/j.jmsy.2020.07.008}
+@techreport{AUTOSAR2022b,
+  author       = {AUTOSAR Consortium},
+  title        = {Specification of Diagnostic Log and Trace},
+  year         = {2022},
+  institution  = {AUTOSAR},
+  number       = {R22-11},
+  note         = {\url{https://www.autosar.org/fileadmin/standards/R22-11/CP/AUTOSAR_SWS_DiagnosticLogAndTrace.pdf}}
 }
 
-@article{nunes2023,
-  author  = {Nunes, P. and Santos, J. and Rocha, E.},
-  title   = {Challenges in Predictive Maintenance -- A Review},
-  journal = {CIRP Journal of Manufacturing Science and Technology},
+@patent{EventDrivenDiagPatent,
+  author       = {Clemens, Markus and M{\"u}ller, Thomas and Sch{\"a}fer, Ralf},
+  title        = {Event-driven fault diagnosis framework for automotive systems},
+  number       = {US20110238258A1},
+  year         = {2011},
+  date         = {2011-09-29},
+  assignee     = {Robert Bosch GmbH},
+  url          = {https://patents.google.com/patent/US20110238258A1/en},
+  note         = {U.S. Patent Application Publication},
+}
+
+@article{Komorkiewicz2023,
+  author    = {Komorkiewicz, Marcin and Chin, Adrian and Skruch, Pawe{\l} and Szelest, Marcin},
+  title     = {Intelligent Data Handling in Current and Next-Generation Automated Vehicle Development—A Review},
+  journal   = {IEEE Access},
+  year      = {2023},
+  volume    = {PP},
+  doi = {10.1109/ACCESS.2023.3258623}
+}
+
+@techreport{Bertoncello2021,
+  author      = {Bertoncello, Michele and Martens, Christopher and Möller, Timo and Schneiderbauer, Tobias},
+  title       = {Unlocking the full life-cycle value from connected-car data},
+  institution = {McKinsey \& Company, McKinsey Center for Future Mobility},
+  year        = {2021},
+  month       = {02},
+  day         = {11},
+  note        = {White paper},
+  url         = {https://www.mckinsey.com/industries/automotive-and-assembly/our-insights/unlocking-the-full-life-cycle-value-from-connected-car-data}
+}
+
+@article{Samantaray2023,
+  author  = {Samantaray, Rojalin},
+  title   = {ADAS Sensor Data Handling in the World of Autonomous Mobility},
+  journal = {SAE Technical Paper Series},
   year    = {2023},
-  doi     = {10.1016/j.cirpj.2022.11.004}
+  doi     = {10.4271/2023-01-0993}
 }
 
-@article{theissler2021,
-  author  = {Theissler, Andreas and Pérez-Velázquez, Judith and Kettelgerdes, Marcel and Elger, Gordon},
-  title   = {Predictive maintenance enabled by machine learning: Use cases and challenges in the automotive industry},
+@article{Theissler2021,
+  title = {Predictive maintenance enabled by machine learning: Use cases and challenges in the automotive industry},
   journal = {Reliability Engineering \& System Safety},
-  year    = {2021},
-  volume  = {215},
-  issn    = {0951-8320},
-  doi     = {https://doi.org/10.1016/j.ress.2021.107864},
-  url     = {https://www.sciencedirect.com/science/article/pii/S0951832021003835}
+  volume = {215},
+  pages = {107864},
+  year = {2021},
+  issn = {0951-8320},
+  doi = {https://doi.org/10.1016/j.ress.2021.107864},
+  url = {https://www.sciencedirect.com/science/article/pii/S0951832021003835},
+  author = {Andreas Theissler and Judith Pérez-Velázquez and Marcel Kettelgerdes and Gordon Elger},
 }
 
-@misc{oezdemir2024,
+@misc{Oezdemir2024,
   author        = {Özdemir, Övgü and İşyapar, M. Tuğberk and Karagöz, Pınar and Schmidt, Klaus Werner and Demir, Demet and Karagöz, N. Alpay},
   title         = {A Survey of Anomaly Detection in In-Vehicle Networks},
   year          = {2024},
@@ -85,17 +107,138 @@
   url           = {https://arxiv.org/abs/2409.07505}
 }
 
-@article{app152011095,
-  author         = {Chen, Fanghua and Jia, Hong and Zhou, Wei},
-  title          = {Vehicle Maintenance Demand Prediction: A Survey},
-  journal        = {Applied Sciences},
-  year           = {2025},
-  volume         = {15},
-  number         = {20},
-  article-number = {11095},
-  issn           = {2076-3417},
-  doi            = {10.3390/app152011095},
-  url            = {https://www.mdpi.com/2076-3417/15/20/11095}
+@article{Brunheroto2022,
+  title = {Data analytics in fleet operations: A systematic literature review and workflow proposal},
+  journal = {Procedia CIRP},
+  volume = {107},
+  pages = {1192-1197},
+  year = {2022},
+  note = {Leading manufacturing systems transformation – Proceedings of the 55th CIRP Conference on Manufacturing Systems 2022},
+  issn = {2212-8271},
+  doi = {https://doi.org/10.1016/j.procir.2022.05.130},
+  url = {https://www.sciencedirect.com/science/article/pii/S2212827122004140},
+  author = {Paulo Henrique Brunheroto and André Luiz {Gonçalves Pepino} and Fernando Deschamps and Eduardo de Freitas {Rocha Loures}}
+}
+
+@article{Shannon1948,
+  author = {Shannon, Claude E.},
+  title = {A Mathematical Theory of Communication},
+  journal = {Bell System Technical Journal},
+  volume = {27},
+  number = {3},
+  pages = {379-423},
+  doi = {https://doi.org/10.1002/j.1538-7305.1948.tb01338.x},
+  url = {https://onlinelibrary.wiley.com/doi/abs/10.1002/j.1538-7305.1948.tb01338.x},
+  eprint = {https://onlinelibrary.wiley.com/doi/pdf/10.1002/j.1538-7305.1948.tb01338.x},
+  year = {1948}
+}
+
+@book{Sayood2017,
+  author = {Sayood, Khalid},
+  title = {Introduction to Data Compression},
+  year = {2017},
+  isbn = {978-0-12-809474-7},
+  publisher = {Morgan Kaufmann Publishers Inc.},
+  edition = {5th}
+}
+
+@article{Shannon1949,
+  author = {Shannon, Claude E.},
+  title = {Communication in the Presence of Noise},
+  journal = {Proceedings of the I.R.E.},
+  volume = {37},
+  number = {1},
+  pages = {10--21},
+  year = {1949},
+  month = {01},
+  publisher = {IEEE},
+  doi = {10.1109/JRPROC.1949.232969},
+}
+
+@book{Cover2006,
+  title={Elements of Information Theory, 2nd Edition},
+  author={Cover, Thomas M. and Thomas, Joyce A.},
+  year={2006},
+  edition={2nd},
+  publisher={John Wiley \& Sons},
+  address={Hoboken, NJ},
+  isbn={978-0-471-24195-9}
+}
+
+@inproceedings{Cuza2024,
+  author    = {Muniz-Cuza, Carlos Enrique and Jensen, S{\o}ren Kejser and Brusokas, Jonas and Ho, Nguyen and Pedersen, Torben Bach},
+  title     = {Evaluating the Impact of Error-Bounded Lossy Compression on Time Series Forecasting},
+  booktitle = {Advances in Database Technology - EDBT},
+  year      = {2024},
+  month     = mar,
+  day       = {18},
+  series    = {Advances in Database Technology - EDBT},
+  number    = {3},
+  pages     = {650--663},
+  publisher = {OpenProceedings},
+  doi       = {10.48786/edbt.2024.56}
+}
+
+@incollection{Thomasian2022,
+    title = {Chapter 2 - Storage technologies and their data},
+    editor = {Alexander Thomasian},
+    booktitle = {Storage Systems},
+    publisher = {Morgan Kaufmann},
+    pages = {89-196},
+    year = {2022},
+    isbn = {978-0-323-90796-5},
+    doi = {https://doi.org/10.1016/B978-0-32-390796-5.00011-5},
+    url = {https://www.sciencedirect.com/science/article/pii/B9780323907965000115},
+    author = {Alexander Thomasian},
+}
+
+@article{Marchioni2024,
+  author  = {Alex Marchioni and Andriy Enttsel and Mauro Mangia and Riccardo Rovatti and Gianluca Setti},
+  title   = {Anomaly Detection Based on Compressed Data: An Information Theoretic Characterization},
+  journal = {{IEEE Transactions on Systems, Man, and Cybernetics: Systems}},
+  volume  = {54},
+  number  = {1},
+  pages   = {23--38},
+  year    = {2024},
+  doi     = {10.1109/TSMC.2023.10233222}
+}
+
+@mastersthesis{Johnsson2025,
+  author       = {Johnsson, Simon},
+  title        = {Large Scale Efficient Data Readout for Vehicle Fleets}, 
+  school       = {Chalmers University of Technology},
+  year         = {2025}
+}
+
+@article{Ma2020,
+   title={Image and Video Compression With Neural Networks: A Review},
+   volume={30},
+   ISSN={1558-2205},
+   url={http://dx.doi.org/10.1109/TCSVT.2019.2910119},
+   DOI={10.1109/tcsvt.2019.2910119},
+   number={6},
+   journal={IEEE Transactions on Circuits and Systems for Video Technology},
+   publisher={Institute of Electrical and Electronics Engineers (IEEE)},
+   author={Ma, Siwei and Zhang, Xinfeng and Jia, Chuanmin and Zhao, Zhenghui and Wang, Shiqi and Wang, Shanshe},
+   year={2020},
+   month=jun,
+   pages={1683–1698} 
+}
+
+
+
+
+# ---------------- OLD ---------------------
+
+@ARTICLE{JeongLLK24X-CANIDS, 
+  author={Jeong, Seonghoon and Lee, Sangho and Lee, Hwejae and Kim, Huy Kang},
+  journal={IEEE Transactions on Vehicular Technology},
+  title={X-CANIDS: Signal-Aware Explainable Intrusion Detection System for Controller Area Network-Based In-Vehicle Network},
+  year={2024},
+  volume={73},
+  number={3},
+  pages={3230--3246},
+  doi={10.1109/TVT.2023.3327275}
 }
 
 @article{yang2022,
@@ -114,35 +257,6 @@
   journal = {arXiv preprint arXiv:1902.04311},
   year    = {2019},
   doi     = {arXiv:1902.04311v1}
-}
-
-@techreport{bertoncello2021unlocking,
-  author      = {Bertoncello, Michele and Martens, Christopher and Möller, Timo and Schneiderbauer, Tobias},
-  title       = {Unlocking the full life-cycle value from connected-car data},
-  institution = {McKinsey \& Company, McKinsey Center for Future Mobility},
-  year        = {2021},
-  month       = {Feb},
-  day         = {11},
-  note        = {White paper},
-  url         = {https://www.mckinsey.com/industries/automotive-and-assembly/our-insights/unlocking-the-full-life-cycle-value-from-connected-car-data}
-}
-
-@article{samantaray2023,
-  author  = {Samantaray, Rojalin},
-  title   = {ADAS Sensor Data Handling in the World of Autonomous Mobility},
-  journal = {SAE Technical Paper Series},
-  year    = {2023},
-  doi     = {10.4271/2023-01-0993}
-}
-
-@article{ma2019,
-  author  = {Ma, Siwei and Zhang, Xinfeng and Jia, Chuanmin and Zhao, Zhenghui and Wang, Shiqi and Wang, Shanshe},
-  title   = {Image and Video Compression With Neural Networks: A Review},
-  journal = {IEEE Transactions on Circuits and Systems for Video Technology},
-  year    = {2019},
-  volume  = {30},
-  pages   = {1683-1698},
-  doi     = {10.1109/tcsvt.2019.2910119}
 }
 
 @inbook{grefenstette1999,
@@ -168,7 +282,6 @@
   doi     = {10.48550/arxiv.2402.18376}
 }
 
-
 @article{zheng2023,
   title = {A temporal convolutional recurrent autoencoder based framework for compressing time series data},
   journal = {Applied Soft Computing},
@@ -179,21 +292,6 @@
   doi = {https://doi.org/10.1016/j.asoc.2023.110797},
   url = {https://www.sciencedirect.com/science/article/pii/S1568494623008153},
   author = {Zheng, Zhong and Zhang, Zijun},
-}
-
-@inproceedings{cuza2024,
-  author    = {Muniz-Cuza, Carlos Enrique and Jensen, S{\o}ren Kejser and Brusokas, Jonas and Ho, Nguyen and Pedersen, Torben Bach},
-  title     = {Evaluating the Impact of Error-Bounded Lossy Compression on Time Series Forecasting},
-  booktitle = {Advances in Database Technology - EDBT},
-  year      = {2024},
-  month     = mar,
-  day       = {18},
-  series    = {Advances in Database Technology - EDBT},
-  number    = {3},
-  pages     = {650--663},
-  publisher = {OpenProceedings},
-  language  = {English},
-  doi       = {10.48786/edbt.2024.56}
 }
 
 @article{azar2022robust,
@@ -231,13 +329,6 @@
   doi       = {10.2352/ei.2022.34.14.coimg-220},
   url       = {http://dx.doi.org/10.2352/EI.2022.34.14.COIMG-220}
 }
-  
-@mastersthesis{johnsson2025thesis,
-  author       = {Johnsson, Simon},
-  title        = {Large Scale Efficient Data Readout for Vehicle Fleets}, 
-  school       = {Chalmers University of Technology},
-  year         = {2025}
-}
 
 @misc{liu2024deepdictdeeplearningbased,
   title={Deep Dict: Deep Learning-based Lossy Time Series Compressor for IoT Data}, 
@@ -257,28 +348,6 @@
   volume={21},
   pages={5505-5520},
   doi={10.1109/tnsm.2024.3427403}
-}
-
-@article{shannon1948,
-  author = {Shannon, C. E.},
-  title = {A Mathematical Theory of Communication},
-  journal = {Bell System Technical Journal},
-  volume = {27},
-  number = {3},
-  pages = {379-423},
-  doi = {https://doi.org/10.1002/j.1538-7305.1948.tb01338.x},
-  url = {https://onlinelibrary.wiley.com/doi/abs/10.1002/j.1538-7305.1948.tb01338.x},
-  eprint = {https://onlinelibrary.wiley.com/doi/pdf/10.1002/j.1538-7305.1948.tb01338.x},
-  year = {1948}
-}
-
-@book{sayood2018,
-  author = {Sayood, Khalid},
-  title = {Introduction to Data Compression, Fifth Edition},
-  year = {2018},
-  isbn = {978-0-12-809474-7},
-  publisher = {Morgan Kaufmann Publishers Inc.},
-  edition = {5th},
 }
 
 @misc{vandenoord2017neural,
