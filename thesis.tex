@@ -5,7 +5,7 @@
 % Parskip % bibliography system updated by Erik Ljungdahl, May 2022
 
 % IMPORT SETTINGS
-\documentclass[12pt,a4paper,twoside,openright]{report}
+\documentclass[12pt,a4paper,twoside,openany]{report}
 \input{include/settings/Settings}
 
 \newcommand{\oneLineTitle}{A Chalmers University of Technology Master's thesis template for \LaTeX}
@@ -36,19 +36,19 @@
 
 % OTHER FRONTMATTER
 % List of figures (add to table of contents)
-\cleardoublepage
+\clearpage
 \phantomsection
 \addcontentsline{toc}{chapter}{\listfigurename} 
 \listoffigures
 % List of tables (add to table of contents)
-\cleardoublepage
+\clearpage
 \phantomsection
 \addcontentsline{toc}{chapter}{\listtablename}  
 \listoftables
 
 
 % START OF MAIN DOCUMENT
-\cleardoublepage
+\clearpage
 \setcounter{page}{1}
 \pagenumbering{arabic}			% Arabic numbering starting from 1 (one)
 
@@ -68,13 +68,13 @@
 \input{include/Conclusion}
 
 % REFERENCES / BIBLIOGRAPHY
-\cleardoublepage
+\clearpage
 \phantomsection % So hyperref does not link to the section above
 \addcontentsline{toc}{chapter}{Bibliography}
 \printbibliography
 
 % APPENDICES
-\cleardoublepage
+\clearpage
 \appendix
 \setcounter{page}{1}
 \pagenumbering{Roman}			% Capitalized roman numbering starting from I (one)
