@@ -14,6 +14,13 @@
 - Implement EdgeCodec and new dataset (tim)
 - Figure out how to save latents and deploy only decoder to train downstream tasks on compressed data (emrik)
 
+Future:
+- Finetune downstream tasks and measure utility loss between uncompressed and compressed data using continuous baseline.
+- Use EdgeCodec replication to also save latents, deploy decoder, measure utility loss.
+=> Review of how EdgeCodec and continuous latent autoencoder affect utility loss.
+
+- How to improve using contrastive semantic tokenization? If we have time implement this and observe new utility loss. 
+
 
 
 
