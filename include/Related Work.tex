@@ -16,7 +16,7 @@ Within the neural compression research community, there have been a few distinct
     \item WaveTokenizer (2024): newest RVQ audio codec; https://arxiv.org/pdf/2408.16532.
 \end{itemize}
 
-\textbf{EdgeCodec}: EdgeCodec takes this idea of using RVQ from audio/speech processing and applies it to time-series data (aerospace sensor data) while implementing the architecture in a way to be edge-optimized (lightweight encoder, heavy decoder)~\cite{EdgeCodec}. EdgeCodec therefore is a notable outlier in the research community and addresses a lot of the challenges we introduced in our background section. They do however have one notable limitation, they only focus on reconstruction error and not downstream task utility.  
+\textbf{EdgeCodec}: EdgeCodec takes this idea of using RVQ from audio/speech processing and applies it to time-series data (aerospace sensor data) while implementing the architecture in a way to be edge-optimized (lightweight encoder, heavy decoder)~\cite{hodo2025edgecodec}. EdgeCodec therefore is a notable outlier in the research community and addresses a lot of the challenges we introduced in our background section. They do however have one notable limitation, they only focus on reconstruction error and not downstream task utility.  
 
 => Key insight: Neural compression as a concept, using VQ-based quantization, and using a lightweight encoder have all been explored before. What is missing, is a neural compression method that optimizes for downstream ML task utility rather than just reconstruction quality.
 
