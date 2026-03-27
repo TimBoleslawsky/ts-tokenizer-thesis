@@ -1,0 +1,23 @@
+\chapter{Related Work}
+
+NOTE: FROM THIS POINT ON, THE SECTIONS ARE NOT THESIS-READY AND ONLY FOR THE PURPOSE OF THE HALFTIME REPORT. 
+
+Within the neural compression research community, there have been a few distinct research directions that are important to consider for this thesis. Within this chapter we will discuss them, show relevant examples, and pinpoint, where the gaps lie that this thesis will fill. 
+
+\textbf{Edge-Optimized Neural Compression} The overwhelming majority of ``edge-optimized neural compression'' research focuses on compressing the ML models themselves for deployment, not compressing the input data. See this for more information~\cite{Lai2026}. There is one notable exception from this, which we will discuss later. 
+
+\textbf{Time-Series Neural Compression}: Research on neural compression for time-series data exists, but usually not optimized for edge deployment. See this for an example of this kind of research~\cite{ZHENG2023110797}. Again, there is one notable exception. 
+
+\textbf{Audio/ Speech Neural Compression}: The audio/speech community has extensive research into vector quantization methods to enable neural compression of this kind of data. Multiple papers have contributed to the space here and introduced the residual vector quantization (RVQ) architecture:
+
+\begin{itemize}
+    \item SoundStream (Google, 2021): first major use of RVQ for audio compression~\cite[pp.~495--507]{zeghidour2021soundstream}.
+    \item EnCodec (Meta, 2022): refined RVQ for high-quality audio~\cite{defossez2022high}.
+    \item WaveTokenizer (2024): newest RVQ audio codec~\cite{ji2024wavtokenizer}.
+\end{itemize}
+
+\textbf{EdgeCodec}: EdgeCodec takes this idea of using RVQ from audio/speech processing and applies it to time-series data (aerospace sensor data) while implementing the architecture in a way to be edge-optimized (lightweight encoder, heavy decoder)~\cite{hodo2025edgecodec}. EdgeCodec therefore is a notable outlier in the research community and addresses a lot of the challenges we introduced in our background section. They do however have one notable limitation, they only focus on reconstruction error and not downstream task utility.  
+
+=> Key insight: Neural compression as a concept, using VQ-based quantization, and using a lightweight encoder have all been explored before. What is missing, is a neural compression method that optimizes for downstream ML task utility rather than just reconstruction quality.
+
+Based on this, we want to explore the impact of existing solutions on downstream ML task performance. For this, we implement baselines, observe their performance when applied to automotive telemetry data, and possibly improve upon existing solutions to optimize for downstream utility retention. 
