@@ -10,16 +10,14 @@
 | **Stage 4: Finalizing** | Apr 18, 2026 – May 15, 2026 | Finally, we will conduct an ablation study to understand the contribution of different components of the proposed method, and finalize the thesis document for a first draft. | - Ablation study results (01.05.)<br>- Experiment, Results, Discussion chapter of the thesis (10.05.)<br>- Complete draft of the final thesis (15.05.) |
 
 ## ToDo's
-- Merge Tims PR (emrik)
-- Implement EdgeCodec and new dataset (tim)
 - Figure out how to save latents and deploy only decoder to train downstream tasks on compressed data (emrik)
-
-Future:
 - Finetune downstream tasks and measure utility loss between uncompressed and compressed data using continuous baseline.
 - Use EdgeCodec replication to also save latents, deploy decoder, measure utility loss.
 => Review of how EdgeCodec and continuous latent autoencoder affect utility loss.
 
 - How to improve using contrastive semantic tokenization? If we have time implement this and observe new utility loss. 
+
+
 
 
 
