@@ -1,113 +1,93 @@
 % CREATED BY DAVID FRISK, 2016
 \chapter{Methods}
 
-NOTE: OUR METHODOLOGY CHANGED A LITTLE COMPARED TO WHAT WE OUTLINED IN THE PROJECT PLANING REPORT. THE MAIN REASON FOR THIS IS THE FINDING OF THE EDGECODEC PAPER. BECAUSE THIS PAPER ALREADY ANSWERS SOME OF OUR RESEARCH QUESTION THE FOCUS WILL BE MORE ON THE ANALYSIS OF THEIR SOLUTION (AND A CONTINUOUS LATENT VARIENT) IN REGARDS OF DOWNSTREAM TASK UTILITY AND POSSIBLE IMPROVEMENTS TO OPTIMIZE SPECIFICALLY FOR THIS. 
+This chapter describes the methodology used in this thesis. It outlines the architectures that are analyzed, how they are implemented, and which improvements are made to align them with the stated goals. It also presents the experimental setup used to evaluate these approaches. 
 
-Within this chapter, we will discuss the methodology employed in our project to achieve the outlined aim. Specifically, we will discuss the architecture of the established compression models and possible improvements upon them. We additionally discuss the experiment setup we will use to analyze these approaches.
+\section{Experimental Setup}
+
+To compare and evaluate the proposed neural compression methods, a series of experiments will be conducted. This subsection outlines the metrics, data, and experimental design framework used in those experiments.
+
+\textbf{Experimental Strategy} To answer the research questions outlined in Chapter~\ref{chap:introduction}, this thesis follows a three-phase experimental strategy. First, two baseline neural compression methods are selected to represent the main design directions discussed in the related work, namely a continuous-latent method and a discrete-latent method. Zheng and Zhang~\cite{Zheng2023} are used as the representative continuous-latent baseline, while EdgeCodec by Hodo et al.~\cite{Hodo2025} is used as the representative discrete-latent baseline because of its emphasis on efficient edge-oriented compression.
+
+In the second phase, both baseline methods are reproduced according to the specifications of the respective authors and evaluated on IoT and automotive time-series data. Their compressed representations are then used to train downstream machine learning models, which are also trained on the corresponding uncompressed data. Comparing the downstream performance of these models provides a direct measure of how much utility is retained after compression and reconstruction.
+
+In the third phase, the more promising of the two baseline methods is examined in greater detail to identify its main failure modes with respect to reconstruction quality and downstream utility retention. Based on these findings, targeted modifications to the quantization strategy and loss function are implemented in a new exploratory variant, named \textit{UniEdgeCodec}. This variant is then evaluated using the same experimental setup as the original baselines in order to assess whether the proposed changes improve the observed limitations.
+
+\textbf{Comparison and Metrics} There are three dimensions along which the compression methods are compared. First, the \textit{compression performance} of both methods is assessed. The metrics compression ratio (CR) and reconstruction error are used to evaluate compression performance. These metrics align with the evaluation standards in the neural compression literature. These metrics are measured by training the two models on a reconstruction task and evaluating the reconstruction quality and effective CR. For reconstruction error, mean squared error (MSE) is used. Within this thesis, the mean-reduced variant of MSE is used. The MSE loss is defined as: 
+
+\begin{equation}
+L_{\mathrm{MSE}} = \frac{1}{T \cdot D} \sum_{t=1}^{T} \sum_{d=1}^{D} \left( x_t^d - \hat{x}_t^d \right)^2
+\end{equation}
+
+Besides reconstruction error, CR is the other important metric to evaluate compression performance. Within this thesis, CR is defined exactly as described by the authors of the EdgeCodec paper~\cite{Hodo2025}. CR is defined as:
+
+\begin{equation}
+\#\text{bits} = \lceil \log_2(k) \rceil, \quad \text{CR} = \frac{A \cdot B}{\#\text{bits} \cdot N}
+\end{equation}
+
+Because this equation is not immediately intuitive, a numerical example is provided. As described, the architecture presented by Hodo et al.~\cite{Hodo2025} compresses the input using both the encoder and the quantization module. In the EdgeCodec paper, the input has 36 channels and a window size of 800 time steps. The output of the encoder is a downsampled version of this input with dimensions 9 channels x 100 time steps. This means that the encoder alone compresses with a CR of: $(800/100) \cdot (36/9) = 32x$. In the quantization setup, the authors compress with precision $A$, which equates to 32 bit precision of the input signals. The number of bits of the codes is dependent on the size of $k$, the codebook size. So for a codebook of size 768, the bits per code is roughly 10. The number of total codes transmitted, $N$, is calculated by multiplying the number of quantizers with the number of input channels to the quantizers. Because the encoder outputs 9 channels and the architecture presented by Hodo et al.~\cite{Hodo2025} works with four quantizers, $N$ is equal to 36. When applying the CR equation, a CR of $\frac{9 \cdot 100 \cdot 32}{36 \cdot 10} = 80x$ is achieved. The total CR is then obtained by multiplying the encoder CR by the quantizer CR to get a total CR of $32 \cdot 80 = 2560x$ as presented in the paper.
+
+Second, the \textit{downstream task performance} when using compressed representations of the training data for selected downstream models from both methods is evaluated. This includes metrics such as accuracy for classification tasks or MSE for regression tasks. To measure this, the downstream models will be trained on uncompressed data and compressed data using different neural compression methods. By comparing the utility loss across these approaches, the utility retention of the various neural compression methods can be measured. 
+
+An important note to make regarding comparability of the neural compression methods, especially regarding the downstream task performance, is that the methods produce different types of compressed representations. The TCN-RNN baseline produces a continuous latent representation, while the EdgeCodec implementation produces discrete latents. To ensure a fair comparison, the compressed data will be reconstructed using the learned decoders before being used as training data for the downstream models. This setup makes it possible to measure which approach retains more downstream task utility after compression and reconstruction.
+
+Third, the \textit{computational efficiency} of the neural compression methods is compared. The computational efficiency of the neural compression methods is assessed using parameter count, computational cost, memory footprint, and latency on a fixed local benchmark system. The parameter counts is simply defined as the total number of trainable parameters. The computational cost equates to the FLOPs required for one input window. Memory footprint is defined as peak memory usage during inference. And finally, latency is measure by the average inference time per window on a fixed benchmark machine. Importantly, as described in the EdgeCodec paper~\cite{Hodo2025}, it is possible to deploy the encoder and decoder of the used autoencoder models seperately. As Hodo et al.~\cite{Hodo2025} propose, through this, only the computational efficiency of the encoder is actually meaningful for edge-deployment. For this reason, within this thesis the focus will be on the encoder parameter count, computational cost, memory footprint, and latency. 
+
+\textbf{Data} The goal is to use industry-relevant data, while also ensuring that the methods are tested on publicly available data. For that reason, two datasets are used: the Volvo electric mobility (EMOB) dataset and the appliances energy dataset used by Zheng and Zhang~\cite{Zheng2023, Candanedo2017}. The EMOB dataset is available through a .csv file and grouped into cycles. For this reason, a cycle-based splitting algorithm is used to avoid data-leakage. A similar day-based splitting is employed with the appliances energy dataset to ensure a day is either completely in the test, validation, or training split to again avoid data-leakage. 
+
+For the input handling and preprocessing it is important that the time-series data is segmented into fixed-length windows. These windows are treated as inputs to the model. Overlapping windows can be used to increase the effective training data size and improve reconstruction quality at window boundaries. The appliances energy dataset uses a window size of 144 with stride 1, and the Volvo EMOB dataset uses a window size of 128 with stride 64. Additionally, each channel is normalized independently using statistics computed on the training set. The train/val/test split for the EMOB and the appliances energy data is 0.7/0.15/0.15 and 0.81/0.09/0.1 respectively. 
+
+Each dataset is implemented using a PyTorch ``Datasets'' and a PyTorch Lightning ``LightningDataModule''. Between these two components, the PyTorch ``Datasets'' are responsible for data preparation steps like connecting to the data source, loading the data, filtering the data, computing global statistics, and creating windows. The PyTorch Lightning ``LightningDataModule'' encapsulates this logic and splits the data to produce the machine learning-ready test/val/train datasets. 
+
+\textbf{Downstream Models} Comparing the compression methods based on downstream task performance requires downstream models. These models need to be simple enough to let us easily evaluate the compression methods used to compress the data which is fed into these models, but also still relevant to actual use cases. For this, the study uses different downstream models across Volvo and publicly available data and different use cases to test the capabilities of the described compression methods. % TBD 
+
+\textbf{Training Setup} NOTE: Explain hyperparameters, training procedure, code availabiltiy, random seed, config used, \dots. %TBD
 
 \section{Baseline Implementation Details}
 
-First, we want to outline the architectures of the established compression methods we will use as baselines. 
+In this section the architectures of the established compression methods which will be used as baselines are introduced in detail. 
 
-\textbf{Baseline 1: Continuous Latent Autoencoder} We will use the continuous latent autoencoder approach introduced by Zheng et. al.~\cite{zheng2023} as an inspiration for our autoencoder baseline model. It is important to note, that the paper introduces a sophisticated framework consisting of two models, the TCN-RNN model and the TCN-ARNN model, as well as a model selection mechanism. For simplicity sake, we will only focus on one of these models, the TCN-RNN model. The TCN-RNN model described in the paper is a representative of state-of-the-art continuous-latent neural time-series compression methods. Compared to vanilla autoencoders, the models architecture is explicitly designed for long temporal dependencies and has demonstrated stronger rate-distortion performance. This allows us to evaluate our tokenization-based approach against a competitive neural compressor rather than a toy model. Another point to note about the TCN-RNN model, is its costly architectural design, namely deep temporal convolutional stacks with large receptive fields, recurrent (often sequential) decoding, and dense continuous latent representations. These components typically lead to increased FLOPs, higher activation memory, and longer inference latency compared to discrete, token-based compression methods.
+\subsection{Baseline 1: TCN-RNN}
 
-On a high level, the TCN-RNN architecture consists of the following components:
+The continuous-latent autoencoder approach introduced by Zheng and Zhang~\cite{Zheng2023} serves as the basis for the continuous-latent baseline model. Their work includes two models, the TCN-RNN model and the TCN-ARNN model, as well as a model selection mechanism. For simplicity, the focus here is on the TCN-RNN model. The TCN-RNN model is representative of state-of-the-art continuous-latent neural time-series compression methods. Compared to vanilla autoencoders, its architecture is explicitly designed to capture long temporal dependencies and has demonstrated stronger rate-distortion performance. This makes it a suitable baseline for evaluating the proposed implementation against a competitive neural compressor. Another point to note about the TCN-RNN model, is its costly architectural design, namely deep temporal convolutional stacks with large receptive fields, recurrent (often sequential) decoding, and dense continuous latent representations. These components typically lead to increased FLOPs, higher activation memory, and longer inference latency. 
 
-\begin{itemize}
-    \item Input handling and preprocessing
-    \item TCN encoder
-    \item RNN bottleneck 
-    \item GRU decoder
-\end{itemize}
+The TCN-RNN model is composed of four main components: the TCN-RNN encoder, a linear projection that serves as the bottleneck, the GRU decoder, and a second linear projection. A complete overview of the TCN-RNN architecture is shown in Figure~\ref{fig:tcn-rnn-architecture}.
 
-For the input handling and preprocessing it is important that the time-series data is segmented into fixed-length windows. These windows are treated as inputs to the model. Overlapping windows can be used to increase the effective training data size and improve reconstruction quality at window boundaries. Additionally, each channel is normalized independently using statistics computed on the training set.
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.40\linewidth]{figure/tcn-rnn.png}
+\caption{TCN-RNN Architecture} % Figure text below figure
+\label{fig:tcn-rnn-architecture}
+\end{figure}
 
-The TCN encoder consists of a stack of Temporal Convolutional Network (TCN) blocks with increasing dilation factors. Each TCN block contains: A 1D convolution operating along the temporal dimension, normalization (BatchNorm or LayerNorm), a nonlinear activation function (ReLU or LeakyReLU), optional dropout for regularization, and a residual connection to stabilize training. The outcome is a continuous latent representation whose size is controlled by the downsampling factor and channel width.
+The TCN encoder consists of a stack of temporal convolutional network (TCN) residual blocks with increasing dilation factors. Each TCN block is primarily composed of two causal convolutional layers, with normalization, a nonlinear activation function (ReLU), and optional dropout for regularization. Additionally, each TCN residual block implements a residual connection to stabilize training. The output is a continuous latent representation whose size is controlled by the downsampling factor and channel width. As in Zheng and Zhang~\cite{Zheng2023}, there is no downsampling in the decoder; any downsampling occurs in the linear bottleneck, which is described in the next paragraph. As a result, the input shape of the encoder is equal to its output shape. The detailed TCN encoder architecture is shown in Figure~\ref{fig:tcn-encoder}. In addition to common design choices such as dropout, residual connections, and the use of ReLU non-linearity, this encoder includes several noteworthy elements. It is designed with training efficiency and information preservation in mind. To this end, the authors use exponential dilations and additional layers to achieve stronger long-range temporal modeling. This design intentionally trades some computational efficiency for modeling capacity. The authors also employ weight normalization to improve training stability, which further increases computational cost.
 
-The encoder output is processed by a recurrent neural network, specifically a gated recurrent unit (GRU), the RNN bottleneck. The RNN captures longer-range temporal dependencies that are not easily modeled by convolutions alone. At this stage, we produce a sequence of hidden states that serves as the core compressed signal. The hidden state dimensionality and number of layers define the strength of the bottleneck. The compression is achieved implicitly by restricting temporal resolution and latent dimensionality rather than by discretization. Afterwards, the RNN decoder reconstructs a latent sequence from the bottleneck representation. The decoder mirrors the bottleneck RNN in depth and hidden size.
+\begin{figure}[h]
+\centering
+\subfloat[TCN Encoder\label{fig:tcn-encoder}]{%
+    \includegraphics[width=0.48\linewidth]{figure/tcn-encoder.png}
+}
+\hfill
+\subfloat[GRU Decoder\label{fig:gru-decoder}]{%
+    \includegraphics[width=0.48\linewidth]{figure/gru-decoder.png}
+}
+\caption{Detailed TCN-RNN Components} % Figure text below figure
+\label{fig:tcn-rnn-components}
+\end{figure}
 
-Finally, a mirrored GRU stack upsamples the latent sequence back to the original temporal resolution. Transposed convolutions or interpolation-based upsampling are used. A final linear projection maps features back to the original channel dimension. The overall training objective is the reconstruction loss (e.g., MSE or MAE) between input and reconstructed signal.
+After the TCN encoder, the linear bottleneck provides the only source of geometric compression within the TCN-RNN architecture. This layer is a linear projection that reduces the input channel dimension to one. In the case of Zheng and Zhang~\cite{Zheng2023}, two input channels were used, resulting in a compression ratio of 2:1. This means that the linear bottleneck layer of the TCN-RNN architecture produces a latent representation of the form $(\text{batch}, 1, \text{seq\_length})$.
 
-\textbf{Current Status and Preliminary Results} We have successfully replicated the baseline autoencoder. We have implemented the encoder, bottleneck, and decoder according to the paper's specification and achieve comparable results. For now, we have tested this replication on the UCI Appliances Energy Prediction dataset and tried to compress and reconstruct two signals, ``Appliances'' and ``Windspeed'' (same as Zheng et. al.~\cite{zheng2023}). Zheng et. al. report a reconstruction error of 0.178 for this dataset, these signals, their implementation, and a sequence length of 150. For the same setup, but using our replication, we get a reconstruction error of 0.165. We therefore conclude, that the replication was successful, and this is a valid baseline to be used in further experiments.
+The continuous latent representation produced by the linear bottleneck serves as the input to the decoder. The decoder has two main functions. First, the embeddings are reversed for reconstruction in reverse order, meaning that the sequence is processed from end to beginning. The authors use this strategy to help the model focus on short-range temporal correlations. Second, the decoder uses a gated recurrent unit (GRU) to reconstruct the input. GRUs are a variant of RNNs that introduce reset and update gates to control the hidden state. This GRU cell expands the latent representation compressed by the bottleneck back to its original dimensionality. Afterwards, the original order is restored and a final linear projection is applied. Figure~\ref{fig:gru-decoder} shows this decoder setup in more detail.
 
-\textbf{Baseline 2: EdgeCodec} The EdgeCodec implementation leverages residual RVQ and a heavyweight decoder to enable a lightweight encoder architecture, which is edge-optimized. The encoder used by the authors works through progressive downsampling through dilated convolutions in residual units, enabling 32x compression. The RVQ utilized for the EdgeCoded architecture is a 4-stage hierarchical quantizer. This means that each stage quantizes residuals from the previous stage. As mentioned, the decoder is intentionally heavy and uses a ELU activation function with transposed convolutional layers for upsampling~\cite{hodo2025edgecodec}. 
+\subsection{Baseline 2: EdgeCodec}
 
-\textbf{Current Status and Preliminary Results} We are currently in the process of replicating the EdgeCodec architecture. Fortunately the authors provide a Github repository with relevant code, so the implementation is going along smoothly. 
+The EdgeCodec implementation leverages residual vector quantizaion (RVQ) and a heavyweight decoder to enable a lightweight encoder architecture, which is edge-optimized~\cite{Hodo2025}. The compression mechanism of the EdgeCodec architecture is fundamentally different to the linear bottleneck employed by the TCN-RNN model. The compression achieved by EdgeCodec is a mixture of geometric compression in the encoder and compression in the information theoretic sense through quantization. The EdgeCodec encoder compresses both along the channel and the temporal axis and works as a dimensionality reduction mechanism. The quantization mechanism employed by EdgeCodec is a 4-layer hierachical RVQ setup. The full EdgeCodec architecure is displayed in Figure~\ref{fig:edgecodec-architecture}.
 
-\section{Experiment Setup}
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.40\linewidth]{figure/edgecodec.png}
+\caption{EdgeCodec Architecture} % Figure text below figure
+\label{fig:edgecodec-architecture}
+\end{figure}
 
-To compare and evaluate the two methods outlined above, we will conduct a series of experiments. In this subsection we outline how we ensure a fair comparison, what metrics we will use, and what data we will use for the experiments.
-
-\textbf{Comparison and Metrics:} There are three dimensions along which we want to compare the two compression methods. First, we want to evaluate the \textit{compression performance} of both methods. This includes the metrics compression rate and reconstruction error. These metrics align with the evaluation standards in the neural compression literature. We will measure these metrics by training the two models on a reconstruction task and evaluating the reconstruction quality and effective compression rate. Second, we want to evaluate the \textit{downstream task performance} when using compressed representations from both methods. This includes metrics such as accuracy for classification tasks or mean squared error for regression tasks. This evaluation reflects the practical utility of the compressed data for real-world applications. Third, we want to compare the \textit{model efficiency} of both methods. This includes metrics such as parameter count, computational cost (FLOPs), inference latency, and memory footprint. These metrics are important for assessing the feasibility of deploying the compression methods in resource-constrained environments.
-
-An important note to make regarding comparability of these two metrics, especially regarding the downstream task performance, is that the two methods produce different types of compressed representations. The TCN-RNN baseline produces a continuous latent representation while the EdgeCodec implementation produces discrete latents. To ensure a fair comparison, we will need to design a lightweight unobtrusive adapter for each representation type that maps them into a common format suitable for the downstream model. The adapters should have minimal capacity to avoid introducing bias. This way, we can isolate the effect of the compression method itself on downstream performance. The envisioned design for the adapters is as follows:
-
-\begin{itemize}
-    \item The adapter for the continuous latent representation will take the sequence of real-valued vectors output by the TCN-RNN model, average them over time to produce a single vector, and then pass this vector through a linear layer to match the input size of the downstream model.
-    \item The adapter for the discrete latent representation will take the sequence of codebook IDs produced by the EdgeCodec model, map each ID to a small vector using an embedding lookup, average these embeddings over time to produce a single vector, and then pass this vector through a linear layer to match the input size of the downstream model. 
-\end{itemize}
-
-\textbf{Data:} The goal is to use industry relevant data, while also ensuring that the methods are tested on publicly available data. For that reason, we will focus on four datasets: Two Volvo datasets, the Volvo test fleet dataset and the Volvo electric mobility (EMOB) dataset, and two publicly available dataset, one from each baseline paper. Each of these datasets contains time-series data collected from e.g. vehicles, including sensor readings, telemetry data, and operational parameters.
-
-\textbf{Downstream Models:} Comparing the compression methods based on downstream task performance requires downstream models. These models need to be simple enough to let us easily evaluate the compression methods used to compress the data which is fed into these models, but also still relevant to actual use cases. For this reason we will use different downstream models across Volvo and publicly available data and different use cases to test the capabilities of the described compression methods. 
-
-\textbf{Current Status and Preliminary Results} We have implemented relevant dataloaders and downstream models for our use cases. We also setup repositories for the data interfaces, the downstream models, and the compression methods discussed to prepare for the experimentation phase. 
-
-We implemented four datasets within our data interface for this thesis. Each dataset includes a torch ``Datasets'' and a pytorchlightning ``LightningDataModule''. Between these two components, the torch ``Datasets'' are responsible for data preparation steps like connecting to the data source, loading the data, filtering the data, computing global statistics, and creating windows. The pytorchlightning ``LightningDataModule'' wrap around this logic and split the data to produce the machine learning-ready test/val/train datasets. The following four data interfaces were implemented: 
-
-\begin{itemize}
-    \item Trino Dataset: This dataset connects to the Volvo internal Trino databases to load test fleet vehicle telemetry data. Within this dataset we implement trip-based splitting to avoid data-leakage. 
-    \item Emob Dataset: Another Volvo internal dataset, that provides battery lifecycle data through a .csv file. The data originates from the E-Mobility (EMOB) team within Volvo. Here we implement cycle-based splitting to avoid data-leakage. 
-    \item Time Series Text Dataset: This is a more general dataset that works with any text-based time-series data with chronological ordering. For our purposes it is used to provide the datasets mentioned by~\cite{zheng2023}. We want to use these datasets to ensure a fair comparison with their method. It is to be evaluated, if this dataset is also suitable for the data used by the EdgeCodec paper.
-\end{itemize}
-
-In the second repository, we implemented the downstream models that will serve as use cases to test the compression methods or more specifically the compressed data. The following downstream models were implemented:
-
-\begin{itemize}
-    \item Fuel Prediction: The first model to be implemented was a simple cnn-regressor for the fuel prediction use case. For this we use the testfleet data from the Trino Dataset. Specifically, we the following signals: ``enginespeed'', ``grosscombinationvehicleweight'', ``actualenginepercenttorque'', ``transmissioncurrentgear'', ``roadinclination'', ``acceleratorpedalposition1'', ``breakpedalposition'', ``highresenginetotalfuelused''. The last of these is the target signal. Unfortunately we had some trouble with the ``highresenginetotalfuelused'', which turned out to be quite unreliable. For this reason, the driver input prediction use case was implemented as an alternative.
-    \item Driver Input Prediction: The driver input prediction use case uses the same cnn-regressor as the fuel prediction use case. We also use roughly the same data, just with different target signals. Here the used signals are: ``enginespeed'', ``grosscombinationvehicleweight'', ``actualenginepercenttorque'', ``transmissioncurrentgear'', ``acceleratorpedalposition1'', ``breakpedalposition'', with the last two being the target signals. This is much more reliably supported by our data, but obviously less common in the automotive context. A final decision on which of if we will use this use case or the fuel prediction one has not yet been made. 
-    \item EMOB Anomaly Detection: For the EMOB use case, we decided to implement a simple cnn-classifier to do anomaly classification. This is a fairly straight forward use case that uses current, voltage, and temperature signals to predict anomalies. The only important note to make here, is, that the data was labeled using a interquartile range (IQR) method that was not implemented by us, but by the Volvo team. 
-    \item Power Consumption: For this we use the Time Series Text Dataset to load the publicly available UCI Houshold Electric Power Consumption dataset. With this, we predict the signal ``Global\_active\_power'' based on various other signals. We want to include this use case for two reasons. One, to have a publicly available benchmark dataset for our compression methods. And two, because our baseline paper uses it. This use case is pretty interchangeable with all datasets used by Zheng et. al.~\cite{zheng2023}. A final decision on which of the datasets to use has not been made. 
-\end{itemize}
-
-This means, that, once the EdgeCodec and relevant datasets are implement, we are ready to start the experimentation phase and use the implemented data interfaces to train the compression methods outlined, observe compression performance and model efficiency, save the resulting latent representations, and train the implemented downstream models to compare the loss in downstream task utility. 
-
-\section{Contrastive Semantic Tokenization}
-We expect to find, that downstream utility is compromised to an extend when utilizing the EdgeCoded compressor. Here, we want to try to improve upon their solution by using contrastive semantic tokenization to create interpretable, behavior-aligned tokens. The basic idea is to use contrastive learning, which shapes the embedding space by pulling similar signal behaviors together and pushing different behaviors apart. This creates exlpicit semantic structure, which we hope to leverage to create semantic tokens. 
-
-Contrastive semantiv tokenization has seen success in image compression, validating our use of this particular technique~\cite{Shang2024}. Contrastive learning on its own has also been successfully applied to time series forecasting and classification. We therefore argue, that temporal patterns in time series data are similarly clusterable as image data, and can be similarly compressed.
-
-% ??????????????????????????????????????????????????????
-
-% \section{Tokenization-Framework Implementation Details}
-
-% \textbf{Tokenization-Based Compression Framework:} Next, we outline the architecture of our proposed tokenization-based compression framework. The architecture is inspired by recent advances in neural compression for speech and audio data, namely the Wavtokenizer paper. The key idea is to replace continuous latent representations with discrete tokens drawn from a learned codebook. 
-
-% We again want to first outline the high-level components of the architecture:
-
-% \begin{itemize}
-%     \item Input handling and preprocessing
-%     \item Lightweight encoder
-%     \item Vector quantization / tokenization
-%     \item Decoder head (for reconstruction) or downstream head (for task-specific loss)
-% \end{itemize}
-
-% The first component is (and should be) identical to the TCN-RNN baseline model. This ensures that any performance differences can be attributed to the compression method rather than preprocessing variations. 
-
-% The encoder layer functionally has the same goal s the TCN encoder used in the baseline model, but has a different architecture. The encoder is designed to be lightweight, avoiding heavy temporal convolutions or recurrent layers. Instead, a shallow neural network (e.g., small CNN or MLP applied per timestep) maps the input signal to intermediate embeddings. The encoder implements the learned transform stage of a lossy compression pipeline. Its purpose is not to predict labels or reconstruct the input per se, but to reshape the data into a representation that can be efficiently discretized. Specifically, the encoder learns a mapping that removes redundancy and correlations present in the raw time series, concentrates important information into a low-dimensional, stable representation, and aligns the geometry of the representation space with the constraints of quantization. The objective is usually joined with the quantization and decoder stages.
-
-% In contrast to autoencoder-based methods, where the encoder is free to produce high-entropy continuous latents, the encoder here is explicitly shaped to produce quantization-friendly representations that support discrete tokenization and entropy coding.
-
-% The next component is the vector quantization / tokenization stage. Here, intermediate embeddings are discretized using a learned codebook. The codebook very simply looks like this: codebook = nn.Parameter(torch.randn(K, D)), with K = number of tokens and D = embedding dimension. Each embedding vector is replaced by the index of its nearest codebook entry. This step introduces the only explicit source of information loss. The output is a sequence of discrete token IDs drawn from a finite vocabulary.
-
-% Lastly, we implement a head to enable loss calculation and backpropagation. Depending on the use case, this head can be a decoder for reconstruction tasks or a downstream head for task-specific losses (e.g., classification or regression). The head architecture is flexible and can be adapted to the specific application. The calculated loss is then used to jointly optimize the encoder, codebook, and head parameters.
-
-% \textbf{Current Status and Preliminary Results} TBD
-
-% #### Our Key Innovation
-% We will use two concepts to innovate upon what has already been done task-supervised learning and semantic tokenization utilizing contrastive learning. Here is how this will be implemented:
-
-% - Instead of training with only one task loss, we will train with a multi-task loss: reconstruction + anomaly detection + driver classification + predictive maintenance.
-% - Contrastive learning pulls similar behaviors together, and pushes different behaviors apart. Task supervision alone gives implicit semantics and contrastive learning creates explicit semantic structure. The idea is, that the same driving behavior (e.g., "hard braking") from different vehicles should map to same token. This will create tokens that are truly semantic and interpretable (Token 47 = hard braking, Token 52 = highway cruising), which enables transfer learning.
-
-% => Final loss function: Loss = reconstruction + λ_task × task_losses + λ_contrast × contrastive_loss.
+% TBD
