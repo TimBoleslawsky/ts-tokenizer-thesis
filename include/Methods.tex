@@ -79,6 +79,16 @@ After the TCN encoder, the linear bottleneck provides the only source of geometr
 
 The continuous latent representation produced by the linear bottleneck serves as the input to the decoder. The decoder has two main functions. First, the embeddings are reversed for reconstruction in reverse order, meaning that the sequence is processed from end to beginning. The authors use this strategy to help the model focus on short-range temporal correlations. Second, the decoder uses a gated recurrent unit (GRU) to reconstruct the input. GRUs are a variant of RNNs that introduce reset and update gates to control the hidden state. This GRU cell expands the latent representation compressed by the bottleneck back to its original dimensionality. Afterwards, the original order is restored and a final linear projection is applied. Figure~\ref{fig:gru-decoder} shows this decoder setup in more detail.
 
+The loss function used for the TCN-RNN basline is identical to the loss function outlined by Zheng and Zhang~\cite{Zheng2023}. They use a simple MSE loss, but with the important caviate, that they use the sum-reduced variant of MSE. The following equation shows the exact loss formula used: 
+
+\begin{equation}
+L_{\mathrm{MSE}} = \frac{1}{T} \sum_{t=1}^{T} \sum_{d=1}^{D} \left( x_t^d - \hat{x}_t^d \right)^2
+\end{equation}
+
+deviations
+
+detailed config
+
 \subsection{Baseline 2: EdgeCodec}
 
 The EdgeCodec implementation leverages residual vector quantizaion (RVQ) and a heavyweight decoder to enable a lightweight encoder architecture, which is edge-optimized~\cite{Hodo2025}. The compression mechanism of the EdgeCodec architecture is fundamentally different to the linear bottleneck employed by the TCN-RNN model. The compression achieved by EdgeCodec is a mixture of geometric compression in the encoder and compression in the information theoretic sense through quantization. The EdgeCodec encoder compresses both along the channel and the temporal axis and works as a dimensionality reduction mechanism. The quantization mechanism employed by EdgeCodec is a 4-layer hierachical RVQ setup. The full EdgeCodec architecure is displayed in Figure~\ref{fig:edgecodec-architecture}.
