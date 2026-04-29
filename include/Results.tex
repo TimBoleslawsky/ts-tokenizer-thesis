@@ -1,3 +1,18 @@
 % CREATED BY DAVID FRISK, 2016
-\chapter{Results}
-Describe you results. Use tables, diagrams etc. for illustration.
+\chapter{Experimental Results}
+
+Within this chapter the results for the experiments for phase one and two are presented. The main goal is to answer research questions one and two. 
+
+\section{Phase 1 Experiments}
+
+First, the efficacy of the two baseline models presented in Chapter~\ref{chap:methods} when applied to IoT and automotive data is determined. For this, both these baseline models were implemented according to the architecture outlined in Chapter~\ref{chap:methods}.
+
+\subsection{The Problem with Continuous-latent Autoencoders}
+
+The TCN-RNN continuous-latent autoencoder is first evaluated on the appliances energy dataset used by Zheng and Zhang~\cite{Zheng2023, Candanedo2017}. The use case the authors present in their paper uses two channels: ``Appliances'' and ``Windspeed''. The training goal is to compress and reconstruct these two signals. The training setup for this first experiment is purposefully kept as close as possible to the authors setup. 
+
+\dots %TBD
+
+\subsection{Applying EdgeCodec to Multimodal IoT and Automotive Data}
+
+Because the EdgeCodec architecture was copied almost one to one from the EdgeCodec Github repository, the implementation correctness will not be tested on a deticated use case. Instead, EdgeCodec is directly applied to 

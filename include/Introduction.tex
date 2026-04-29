@@ -19,7 +19,7 @@ The aim of this thesis is threefold. First, two existing neural compression meth
 
 Second, the compressed representations produced by these methods are used to train downstream machine learning models and are compared against models trained on uncompressed data. This makes it possible to assess how much task-relevant information is retained after compression and reconstruction.
 
-Third, the more promising of the two methods is further explored through changes to the quantization strategy and loss function. The goal of this exploratory part is to investigate whether reconstruction loss and downstream utility retention can be improved further without sacrificing the general compression objective and computational efficiency.
+Third, the two methods are further explored through changes to the quantization strategy and loss function. The goal of this exploratory part is to investigate whether reconstruction loss and downstream utility retention can be improved further without sacrificing the general compression objective and computational efficiency.
 
 \section{Research Questions}
 This thesis is guided by the following research questions:
@@ -27,17 +27,17 @@ This thesis is guided by the following research questions:
 \begin{enumerate}
 	\item RQ1: How do the selected neural compression methods perform on automotive and IoT time-series data in terms of compression ratio, reconstruction quality, and computational efficiency?
 	\item RQ2: To what extent do downstream machine learning models trained on reconstructed compressed data retain task performance compared to models trained on uncompressed data?
-	\item RQ3: Where does the more promising neural compression method fall short in terms of reconstruction quality and downstream utility retention, and which quantization strategies and loss functions can mitigate these limitations?
+	\item RQ3: Where do the existing neural compression methods fall short in terms of reconstruction quality and downstream utility retention, and which quantization strategies and loss functions can mitigate these limitations?
 \end{enumerate}
 
 \section{Limitations}
-Due to time constraints and the scope of this thesis, there will be several limitations to the work presented. 
+Due to time constraints and the scope of this thesis, there are several limitations to the work presented. 
 
-First, the work will forgo testing on real hardware as that would be very time consuming and difficult to set up while contributing relatively little to the main research question. Instead, canonical methods to measure computational efficiency will be employed. 
+First, the work forgoes testing on real hardware as that is very time consuming and difficult to set up while contributing relatively little to the main research question. Instead, canonical methods to measure computational efficiency are employed. 
 
-The work will further be limited to only testing regression tasks and anomaly detection as downstream tasks due to time constraints and structure of the available datasets. These two tasks should however be a good representation of common downstream tasks and adding more tasks would likely not drastically change the conclusion of the thesis. 
+The work is further limited to testing only regression tasks and anomaly detection as downstream tasks due to time constraints and the structure of the available datasets. These two tasks should, however, be a good representation of common downstream tasks, and adding more tasks would likely not drastically change the conclusion of the thesis. 
 
-Due to wanting to keep the compressed data representation as versatile as possible, no task-aware compression techniques will be implemented. While task-aware compression could potentially yield better performance for specific tasks, it would limit the generalizability of the compressed representation and add significant complexity to the work. It also results in a more relevant comparison to other compression techniques which are not task-aware. 
+To keep the compressed data representation as versatile as possible, no task-aware compression techniques are implemented. While task-aware compression could potentially yield better performance for specific tasks, it would limit the generalizability of the compressed representation and add significant complexity to the work. It also results in a more relevant comparison to other compression techniques which are not task-aware. 
 
 
 % This chapter presents the section levels that can be used in the template. 
