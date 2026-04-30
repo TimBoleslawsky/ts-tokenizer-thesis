@@ -1,0 +1,20 @@
+\chapter{Related Works}
+\label{chap:related-works}
+
+Within the neural compression research community, several distinct research directions are relevant to this thesis. This chapter outlines those directions, presents representative examples, and identifies the research gaps addressed by the present work.
+
+\textbf{Time-Series Neural Compression} Neural compression for time-series data has been studied, but many methods are not optimized for edge deployment. The architecture proposed by Zheng and Zhang~\cite{Zheng2023} is representative of this line of work. Their method uses a continuous-latent autoencoder with recurrent modules and is primarily optimized for reconstruction quality, while computational efficiency and downstream task utility retention are not central optimization targets~\cite{Zheng2023}.
+
+\textbf{Edge-Optimized Neural Compression} The majority of research labeled as ``edge-optimized neural compression'' focuses on compressing ML models for deployment rather than compressing input data. Lai et al.~\cite{Lai2026} highlight the importance of enabling complex deep learning models on resource-constrained edge devices. Key developments include improved efficient transformer variants and knowledge-distillation methods~\cite{Lai2026}. These advances address one side of the edge-optimization problem (model compression), while the complementary side is efficient compression of the data itself. EdgeCodec is a notable example of this latter direction and is discussed below.
+
+\textbf{Audio/Speech Neural Compression} The audio/speech community contains extensive research on neural compression, with a strong emphasis on vector quantization. A key development in this literature is residual vector quantization (RVQ). RVQ works by layering hierarchical quantizers whith each layer quantizing the residuals of the previous layer~\cite[pp.~495--507]{Zeghidour2021}.
+
+\begin{itemize}
+    \item SoundStream (Google, 2021): first major use of RVQ for audio compression~\cite[pp.~495--507]{Zeghidour2021}.
+    \item EnCodec (Meta, 2022): refined RVQ for high-quality audio~\cite{Defossez2022}.
+    \item WaveTokenizer (2024): recent RVQ-based audio codec~\cite{Ji2025}.
+\end{itemize}
+
+\textbf{EdgeCodec} EdgeCodec transfers RVQ ideas from audio/speech processing to time-series compression (aerospace sensor data) and is explicitly designed for edge deployment. This is achieved through a lightweight encoder deployed on the edge and a heavier decoder executed in the cloud~\cite{Hodo2025}. As a result, EdgeCodec is a notable outlier in neural compression literature and addresses many challenges apparent in the research field. However, it has important limitations for the present use case: it is optimized for smooth, continuous aerospace sensor streams rather than mutlimodal vehicle telemetry, and it prioritizes reconstruction error over downstream task utility.
+
+The literature review indicates that neural compression, VQ-based quantization, and lightweight design principles have all been explored individually. The remaining gap is a method tailored to mutlimodal data that explicitly optimizes downstream ML task utility rather than reconstruction quality alone. Based on this gap, the present thesis evaluates two existing solutions, namely the continuous-latent autoencoder by Zheng and Zhang~\cite{Zheng2023} and EdgeCodec~\cite{Hodo2025}, with respect to downstream ML task performance. Baseline models derived from these works are implemented and evaluated on automotive telemetry data, with the objective of identifying and improving design choices for downstream utility retention.
