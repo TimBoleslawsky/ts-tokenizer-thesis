@@ -12,7 +12,7 @@ First, two baseline neural compression methods are selected to represent the mai
 
 In the second phase, both baseline methods are reproduced according to the specifications of the respective authors and evaluated on IoT and automotive time-series data. Their compressed representations are then used to train downstream machine learning models, which are also trained on the corresponding uncompressed data. Comparing the downstream performance of these models provides a direct measure of how much utility is retained after compression and reconstruction.
 
-In the third phase, the two baseline methods are examined in greater detail to identify their main failure modes with respect to reconstruction quality and downstream utility retention. Based on these findings, targeted modifications to the quantization strategy and loss function are implemented in a new exploratory variant, named \textit{UniEdgeCodec}. This variant is then evaluated using the same experimental setup as the original baselines in order to assess whether the proposed changes improve the observed limitations.
+In the third phase, the two baseline methods are examined in greater detail to identify their main failure modes with respect to reconstruction quality and downstream utility retention. Based on these findings, targeted modifications to the quantization strategy and loss function are implemented in two new exploratory variants, named \textit{UniEdgeCodec} and \textit{TAEdgeCodec}. These variants are then evaluated using the same experimental setup as the original baselines in order to assess whether the proposed changes improve the observed limitations.
 
 \section{Threats to Validity}
 
@@ -26,7 +26,7 @@ Lastly, construct validity, or conceptual correctness, concerns whether the chos
 
 \section{Comparison and Metrics} 
 
-There are three dimensions along which the compression methods are compared. First, the \textit{compression performance} of both methods is assessed. The metrics compression ratio (CR) and reconstruction error are used to evaluate compression performance. These metrics align with the evaluation standards in the neural compression literature. These metrics are measured by training the two models on a reconstruction task and evaluating the reconstruction quality and effective CR. For reconstruction error, mean squared error (MSE) is used. Within this thesis, the mean-reduced variant of MSE is used. The MSE loss is defined as: 
+There are two dimensions along which the compression methods are compared. First, the \textit{compression performance} of both methods is assessed. The metrics compression ratio (CR) and reconstruction error are primarily used to evaluate compression performance. These metrics align with the evaluation standards in the neural compression literature. Additioanlly, average correlation between the reconstructed signals and perceptual reconstruction quality are taken into account, to give a broader picture of the qualities of the reconstructed artifacts. All metrics are measured by training the models on a reconstruction task and evaluating the reconstruction quality and effective CR. For reconstruction error, mean squared error (MSE) is used. Within this thesis, the mean-reduced variant of MSE is used. The MSE loss is defined as: 
 
 \begin{equation}
 L_{\mathrm{MSE}} = \frac{1}{T \cdot D} \sum_{t=1}^{T} \sum_{d=1}^{D} \left( x_t^d - \hat{x}_t^d \right)^2
@@ -45,8 +45,6 @@ Second, the \textit{downstream task performance} when using compressed represent
 An important note regarding comparability of the neural compression methods, especially for downstream task performance, is that the methods produce different types of compressed representations. The TCN-RNN baseline produces a continuous latent representation, while the EdgeCodec implementation produces discrete latents. To ensure a fair comparison, the compressed data is reconstructed using the learned decoders before being used as training data for the downstream models. This setup makes it possible to measure which approach retains more downstream task utility after compression and reconstruction.
 
 Another important note for the evaluation of downstream task performance is that only the test portion of the available datasets is used when training downstream models. The train and validation splits are used during training of the neural compression methods. The test set is then used to evaluate the neural compression method. Because the neural compression methods have seen the train and validation splits during training, these splits cannot be used when deploying the neural compression methods to compress data for downstream tasks. For this reason, only the test split is used as input, either compressed or uncompressed, to the downstream models.
-
-Third, the \textit{computational efficiency} of the neural compression methods is compared. The computational efficiency of the neural compression methods is assessed using parameter count, computational cost, memory footprint, and latency on a fixed local benchmark system. The parameter count is simply defined as the total number of trainable parameters. The computational cost corresponds to the FLOPs required for one input window. Memory footprint is defined as peak memory usage during inference. Latency is measured by the average inference time per window on a fixed benchmark machine. Importantly, as described in the EdgeCodec paper~\cite{Hodo2025}, it is possible to deploy the encoder and decoder of the used autoencoder models separately. As Hodo et al.~\cite{Hodo2025} propose, only the computational efficiency of the encoder is meaningful for edge deployment. For this reason, within this thesis the focus is on encoder parameter count, computational cost, memory footprint, and latency.
 
 \section{Data} 
 
@@ -173,11 +171,15 @@ L(x, \hat{x}, z, \tilde{z}, y, g) = \alpha \cdot L_\mathrm{MSE}(x, \hat{x}) + (1
 
 where $x$ is the input, $\hat{x}$ is the reconstructed output, $z$ and $\tilde{z}$ are the original and quantized latents, $y$ and $g$ represent the discriminator and generator outputs, and $\alpha, \eta, \gamma$ are weighting coefficients. As described before, for the purposes of this thesis, the adversarial training loss is omitted. 
 
-\subsection{UniEdgeCodec Implementation}
+\subsection{Proposed Implementations}
 
-It is expected that the EdgeCodec baseline implementation performs much better than the TCN-RNN baseline. This is because of two reasons. First, discrete-latent neural compression methods have been shown to consistently outperform continuous-latent neural compression methods like TCN-RNN. Second, EdgeCodec is optimized for the specific use case of compressing sensor data on the edge, which nicely fits the use case of this thesis. 
+It is expected that the EdgeCodec baseline implementation performs much better than the TCN-RNN baseline. This is because of two reasons. First, discrete-latent neural compression methods have been shown to consistently outperform continuous-latent neural compression methods like TCN-RNN. Second, EdgeCodec is optimized for the specific use case of compressing sensor data on the edge, which nicely fits the use case of this thesis. Given this, the proposed improvements upon the baseline models are based on the EdgeCodec architecture. 
 
-While it is expected that the EdgeCodec baseline will outperform the TCN-RNN baseline, there are a few noteworthy shortcomings of the EdgeCodec architecture. When looking at Figure~\ref{fig:emob-data} and Figure~\ref{fig:appliances-data}, it becomes apparent that the signals in these two datasets have completely contrasting characteristics. This is not unusual in IoT or automotive data, which is why these types of data are usually referred to as multimodal. The EdgeCodec architecture handles each signal the same. All signals share one encoder, one codebook, and one decoder. It is therefore likely that signal-specific nuances will be hard to capture for the EdgeCodec model. Especially signal types that the EdgeCodec model is not primarily designed to handle, such as discontinuous data. Another potential limitation of the EdgeCodec architecture for this thesis's use case is that the main optimization goal is reconstruction of the data, rather than downstream task utility. With the UniEdgeCodec architecture, this thesis will primarily address the first of these shortcomings. 
+While it is expected that the EdgeCodec baseline will outperform the TCN-RNN baseline, there are a few noteworthy shortcomings of the EdgeCodec architecture. When looking at Figure~\ref{fig:emob-data} and Figure~\ref{fig:appliances-data}, it becomes apparent that the signals in these two datasets have completely contrasting characteristics. This is not unusual in IoT or automotive data, which is why these types of data are usually referred to as multimodal. The EdgeCodec architecture handles each signal the same. All signals share one encoder, one codebook, and one decoder. It is therefore likely that signal-specific nuances will be hard to capture for the EdgeCodec model, especially for signal types that the model is not primarily designed to handle (for example, discontinuous signals). Another potential limitation of the EdgeCodec architecture for this thesis's use case is that the main optimization goal is reconstruction of the data, rather than downstream task utility. With the UniEdgeCodec architecture, this thesis will primarily address the first of these shortcomings, while the TAEdgeCodec tries to intentionally focus on improving downstream task utility retention. 
+
+Both UniEdgeCodec and TAEdgeCodec keep the architecture, including the encoder setup, the decoder setup, and the RVQ setup (aside from the partitioning of the codebook for UniEdgeCodec), the same compared to the EdgeCodec architecture. This is done to ensure comparability and keep the efficient architecture of the EdgeCodec model intact. The specific dimensions and parameters used for the individual experiments are introduced in the next sections, where the experiment setup will be presented. 
+
+\subsubsection{UniEdgeCodec}
 
 At the core of the UniEdgeCodec idea is the desire to group IoT/automotive signals and handle each group with a more specialized codebook and loss function to account for group-specific characteristics more clearly. The idea to partition the codebook for different types of inputs is presented by Jiang2025 et al.~\cite{Jiang2025} in their UniCodec architecture. Here, the authors try to address the problem of handling multi-domain audio data with a single codebook. Building on this idea, UniEdgeCodec implements a partitioning of the codebook by signal type. In practice, this means that each signal type will be assigned a specified range of codes in the codebook. In addition to the partitioning of the codebook, each signal type will receive a specific loss function in the UniEdgeCodec architecture. The signal types that are defined by the UniEdgeCodec architecture are continuous vs. discontinuous signals and smooth vs. irregular signals. Within the scope of this thesis, the classification of these signal types is done manually and not learned. 
 
@@ -199,7 +201,7 @@ Through this grouping of the signals, four different signal types can be defined
 
 \begin{equation}
 \begin{split}
-L_{recon}(x, \hat{x}, \lambda_{TV}, \lambda_{peak}, \lambda_{TV+peak}) &= L_\mathrm{MSE}(x, \hat{x}) \\
+L_{recon}(x, \hat{x}, \alpha, \lambda_{TV}, \lambda_{peak}, \lambda_{TV+peak}) &= \alpha \cdot L_\mathrm{MSE}(x, \hat{x}) + (1 - \alpha) \cdot L_{l1\mathrm{-smooth}}(x, \hat{x}) \\
 &\quad + \lambda_{TV} \cdot L_\mathrm{TV}(\hat{x}) \\
 &\quad + \lambda_{peak} \cdot L_\mathrm{peak}(x, \hat{x}) \\
 &\quad + \lambda_{TV+peak} \cdot L_\mathrm{TV+peak}(x, \hat{x})
@@ -212,7 +214,24 @@ Lastly, the RVQ loss is added, just as in the EdgeCodec architecture. The total 
 L(x, \hat{x}, z, \tilde{z}, \lambda_{TV}, \lambda_{peak}, \lambda_{TV+peak}, \eta) = L_{recon}(x, \hat{x}, \lambda_{TV}, \lambda_{peak}, \lambda_{TV+peak}) + \eta \cdot L_\mathrm{RVQ}(z, \tilde{z}) 
 \end{equation}
 
-The rest of the architecture, including the encoder setup, the decoder setup, and the RVQ setup (aside from the partitioning of the codebook), remains the same for UniEdgeCodec as it was introduced for the EdgeCodec architecture. The specific dimensions and parameters used for the individual experiments are introduced in the next sections, where the experiment setup will be presented. 
+\subsubsection{TAEdgeCodec}
+
+Task-aware or task-oriented neural compression has seen an increase in popularity as more and more data is purely used for downstream task models and not human perception. As Yang et al.~\cite{Yang2022} note, here perceptual quality is irrelevant and the main focus lies on optimizing for the IB problem introduced in Chapter~\ref{chap:theory}. Making a compression model task-aware is achieved by either pre-training or end-to-end training a task head and adding the task loss to the autoencoder loss~\cite{Song2021, Yang2022}. 
+
+To add task-awareness to the EdgeCodec architecture, an end-to-end approach is implemented, which, depending on the dataset, learns a simple classification or regression head and adds the task-loss to the autoencoder loss. The resulting loss function looks as follows: 
+
+\begin{equation}
+L(x, \hat{x}, z, \tilde{z}, y, \hat{y}) = \alpha \cdot L_\mathrm{MSE}(x, \hat{x}) + (1 - \alpha) \cdot L_{l1\mathrm{-smooth}}(x, \hat{x}) + \eta \cdot L_\mathrm{RVQ}(z, \tilde{z}) + \gamma \cdot L_\mathrm{task}(y, \hat{y})
+\end{equation}
+
+The task loss $L_\mathrm{task}$ is defined as a smooth l1 huber loss for the regression task and a cross entropy loss for the classification task. The targets are directly loaded from the datasets, so that the reconstructed time series can be fed directly to the task head together with targets to produce task predictions and calculate the specific loss. For the regression task, the complete sequence for each window is constructed so that each timestep values is predicted by the task. The classification task tries to predict anomalies on a window-level. The task head for both tasks is identical and purposefully kept simple to isolate the compression method effect. The complete task head architecture is presented in Figure~\ref{fig:task-head}.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.30\linewidth]{figure/task-head.png}
+\caption{Task Head Architecture} % Figure text below figure
+\label{fig:task-head}
+\end{figure}
 
 \section{Experiment Setup}
 % TBD
