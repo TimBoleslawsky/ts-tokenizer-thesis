@@ -254,3 +254,59 @@ The UniEdgeCodec remains largely similar to the EdgeCodec in terms of architectu
 \subsection{Task Aware EdgeCodec}
 
 The task aware EdgeCodec also share many hyperparameters with the base EdgeCodec model. These include the parameters for the encoder, decoder, optimizer, scheduler and the pytorch lightning trainer. The quantizer also has a codebook with the size of 768 and an embedding dimension of 64. The main difference is the training module which now has a beta for balancing the task loss. This value is set to 1e-2 and the dimension for the task head is set to 128.
+
+\subsection{Compression Ratio}
+
+ 
+
+Certain parameters have been set with the intent of roughly alligning the CR of each codec so that their results will be comparable. For this reason, the codebook size and the number of quantizers have been modified. The CR can be computed as follows:
+
+ 
+
+\begin{equation}
+\text{original\_size} = \text{channels} \times \text{timesteps} \times 32
+\end{equation}
+
+\begin{equation}
+\text{compressed\_size} = \lceil \log_2(\text{codebook\_size}) \rceil \times \text{channels} \times \text{num\_quantizers}
+\end{equation}
+
+\begin{equation}
+\text{CR} = \frac{\text{original\_size}}{\text{compressed\_size}}
+\end{equation}
+
+Table~\ref{tab:compression-ratios-emob} presents the computed compression ratios for the three architectures evaluated on the Volvo EMOB dataset, demonstrating that the architectures achieve comparable compression performance despite their different internal configurations.
+
+\begin{table}[h]
+\centering
+\caption{Compression Ratio Comparison for EMOB Dataset (3 channels, 128 timesteps)}
+\label{tab:compression-ratios-emob}
+\begin{tabular}{lcccc}
+\hline
+\textbf{Model} & \textbf{Codebook} & \textbf{Emb.} & \textbf{Num} & \textbf{CR} \\
+& \textbf{Size} & \textbf{Dim.} & \textbf{Quant.} & \\
+\hline
+EdgeCodec & 768 & 32 & 2 & 204.8$\times$ \\
+UniEdgeCodec & 1000 & 64 & 2 & 204.8$\times$ \\
+TAEdgeCodec & 768 & 64 & 2 & 204.8$\times$ \\
+\hline
+\end{tabular}
+\end{table}
+
+Similarly, Table~\ref{tab:compression-ratios-appliances} shows the computed compression ratios for the appliances energy dataset. Despite the larger number of channels and longer window size compared to the EMOB dataset, all three architectures maintain comparable compression performance, achieving between 240$\times$ and 230$\times$ compression.
+
+\begin{table}[h]
+\centering
+\caption{Compression Ratio Comparison for Appliances Energy Dataset (7 channels, 144 timesteps)}
+\label{tab:compression-ratios-appliances}
+\begin{tabular}{lcccc}
+\hline
+\textbf{Model} & \textbf{Codebook} & \textbf{Emb.} & \textbf{Num} & \textbf{CR} \\
+& \textbf{Size} & \textbf{Dim.} & \textbf{Quant.} & \\
+\hline
+EdgeCodec & 768 & 72 & 2 & 240.4$\times$ \\
+UniEdgeCodec & 1000 & 72 & 2 & 230.4$\times$ \\
+TAEdgeCodec & 768 & 72 & 2 & 240.4$\times$ \\
+\hline
+\end{tabular}
+\end{table}
