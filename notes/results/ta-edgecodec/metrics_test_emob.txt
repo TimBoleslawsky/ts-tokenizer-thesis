@@ -11,6 +11,8 @@ DECODER LOSS ANALYSIS
 ============================================================
 
 Normalized MSE (summed): 0.063650
+Normalized MSE (meaned): 0.021217
+Correlation (meaned): 0.771536
 
 Per-Channel Metrics:
 ------------------------------------------------------------

@@ -5,19 +5,91 @@ Within this chapter the results of the experiments are presented. The results ar
 
 \section{Key Findings}
 
-Top-line result: one clear sentence naming the best model and the primary metric (value + CI).
-Secondary wins: 1–2 bullets for notable trade-offs or dataset-specific wins.
-Major negative / surprise: 1 bullet about what underperformed or an unexpected result.
-Practical implication: 1 sentence about which model(s) to prefer for specific use-cases.
-Link to figures: short pointers to the supporting table/plot numbers.
+- TCN-RNN is consistently worse than discrete-latent methods at much lower CR.
+- UniEdgeCodec tends to improve correlation with one signal exception (lights).
+- No correlation between mean MSE and mean correlation.
+- The performance of TAEdgeCodec varies widely between the two datasets.
+- UniEdgeCodec also improves perceptual quality which suggests that correlation and perceptual quality are correlated.
+- Discrete and discontinuous signals are harder for non UniEdgeCodec models when in comes to reconstruciton quality. 
 
 \section{Comparative Evaluation}
 
-The two dimensions along wich each of the neural compression methods are evaluated are compressione performance and downstream task performance, as outlined in Chapter~\ref{chap:methods}. In the results for all neural compression methods for all datasets across both these dimensions are presented. 
+The two dimensions along which each neural compression method is evaluated are compression performance and downstream task performance, as outlined in Chapter~\ref{chap:methods}. The results for all neural compression methods and all datasets across both dimensions are presented here.
 
 \subsection{Compression Performance}
 
+Compression performance is evaluated using two quantitative metrics: meaned MSE and meaned correlation. Both metrics are computed by taking the per-signal values reported in the experiment logs (TBD: Add to Appendix) and averaging them across all reconstructed signals in a file. The meaned MSE summarizes the average normalized reconstruction error, so lower values indicate that the reconstructed signals stay closer to the originals in amplitude. The meaned correlation summarizes how well the reconstructed temporal patterns match the original ones, so higher values indicate better preservation of the signal shape, peaks, and troughs. The two metrics are complementary: MSE captures pointwise deviation, while correlation captures similarity in the overall signal trajectory. Table~\ref{tab:compression-performance-emob} summarizes the Volvo EMOB results, and Table~\ref{tab:compression-performance-appliances} summarizes the appliances energy results.
+
+\begin{table}[h]
+\centering
+\caption{Compression performance on the Volvo EMOB dataset. Lower meaned MSE is better, while higher meaned correlation is better.}
+\label{tab:compression-performance-emob}
+\begin{tabular}{lcc}
+\hline
+Model & Meaned MSE $\downarrow$ & Meaned correlation $\uparrow$ \\
+\hline
+TCN-RNN & 0.123422 & 0.726090 \\
+EdgeCodec & 0.022692 & 0.771649 \\
+UniEdgeCodec & 0.024068 & \textbf{0.962822} \\
+TAEdgeCodec & \textbf{0.021217} & 0.771536 \\
+\hline
+\end{tabular}
+\end{table}
+
+On the Volvo EMOB dataset, the three EdgeCodec-based models are close in meaned MSE, but they differ more clearly in meaned correlation. TAEdgeCodec has the lowest meaned MSE, while UniEdgeCodec achieves the highest meaned correlation by a clear margin. TCN-RNN performs substantially worse on meaned MSE than the EdgeCodec variants and also trails them in meaned correlation.
+
+% ADD; We can see that UniEdgeCodec is significantly better in correlation and TCN-RNN is significantly worse in MSE 
+
+\begin{table}[h]
+\centering
+\caption{Compression performance on the appliances energy dataset. The reduced TCN-RNN run is reported separately because it uses only two signals and is therefore not directly comparable to the full seven-signal setup.}
+\label{tab:compression-performance-appliances}
+\begin{tabular}{lcc}
+\hline
+Model & Meaned MSE $\downarrow$ & Meaned correlation $\uparrow$ \\
+\hline
+TCN-RNN & 0.770741 & 0.651379 \\
+EdgeCodec & \textbf{0.416471} & \textbf{0.705981} \\
+UniEdgeCodec & 0.467329 & 0.677110 \\
+TAEdgeCodec & 0.604076 & 0.436676 \\
+\hline
+\end{tabular}
+\end{table}
+
+On the appliances energy dataset, EdgeCodec is the strongest model overall, with the lowest meaned MSE and the highest meaned correlation. UniEdgeCodec follows closely behind, while TAEdgeCodec shows a larger drop in both metrics. TCN-RNN is the weakest of the four models on meaned MSE, although its meaned correlation remains above TAEdgeCodec.
+
+The EMOB results show a clear signal-level outlier: Amps is consistently the hardest channel to reconstruct, with correlations around 0.32 for both EdgeCodec and TAEdgeCodec, while Volts and Temp 1 remain above 0.99. This is reflected in the meaned correlation values, where the single low-performing channel pulls the overall score down despite strong reconstruction of the remaining signals. The appliances energy results show a different pattern. Here, the most problematic channels are T\_out, RH\_out, Windspeed, and especially Tdewpoint, while the smoother signals such as Press\_mm\_hg and lights remain easier to reconstruct. In other words, the meaned MSE highlights where the reconstruction error is concentrated, while the meaned correlation shows whether the temporal structure of the signal is preserved across the full set of channels.
+
+% Add correlation of signal variance and std to reconstruction quality => There seems to be no overall correlation between signal variance and the recosntrucion metrics. 
+
+% Add perceptual qualtizy with pictures
+
 \subsection{Downstream Task Performance}
+
+Utility retention is reported for the models that were evaluated on a downstream task after reconstruction. Table~\ref{tab:utility-retention-overview} provides an overview of the values reported in each results file.
+
+\begin{table}[h]
+\centering
+\caption{Overview of the utility retention values reported in the results files. A value is only available when downstream task performance was evaluated for that file.}
+\label{tab:utility-retention-overview}
+\begin{tabular}{llc}
+\hline
+Model & Dataset / file & Utility retention (\%) \\
+\hline
+TCN-RNN & EMOB & N/A \\
+TCN-RNN & Appliances energy & N/A \\
+TCN-RNN (reduced) & Appliances energy & N/A \\
+EdgeCodec & EMOB & 92.08 \\
+EdgeCodec & Appliances energy & 88.33 \\
+UniEdgeCodec & EMOB & 94.20 \\
+UniEdgeCodec & Appliances energy & 83.75 \\
+TAEdgeCodec & EMOB & 92.38 \\
+TAEdgeCodec & Appliances energy & 89.95 \\
+\hline
+\end{tabular}
+\end{table}
+
+The highest utility retention is achieved by UniEdgeCodec on EMOB, while TAEdgeCodec is strongest on the appliances energy dataset. Among the appliances results, EdgeCodec and TAEdgeCodec retain more downstream utility than UniEdgeCodec, even though EdgeCodec remains the strongest model on the reconstruction metrics.
 
 
 

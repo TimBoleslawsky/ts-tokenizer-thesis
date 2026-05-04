@@ -130,6 +130,8 @@ L_{\mathrm{MSE}} = \frac{1}{T} \sum_{t=1}^{T} \sum_{d=1}^{D} \left( x_t^d - \hat
 
 This function is used as the loss function for the TCN-RNN model, while the mean-reduced version of MSE is used to evaluate all the models, as described earlier in this chapter. 
 
+% add about how we test to see if it works here
+
 \subsubsection{Baseline 2: EdgeCodec}
 
 The EdgeCodec implementation leverages residual vector quantization (RVQ) and a heavyweight decoder to enable a lightweight encoder architecture, which is edge-optimized~\cite{Hodo2025}. The compression mechanism of the EdgeCodec architecture is fundamentally different from the linear bottleneck employed by the TCN-RNN model. The compression achieved by EdgeCodec is a mixture of geometric compression in the encoder and compression in the information theoretic sense through quantization. The EdgeCodec encoder compresses both along the channel and the temporal axis and works as a dimensionality reduction mechanism. The quantization mechanism employed by EdgeCodec is a 4-layer hierarchical RVQ setup. The full EdgeCodec architecture is displayed in Figure~\ref{fig:edgecodec-architecture}. 
@@ -170,6 +172,8 @@ L(x, \hat{x}, z, \tilde{z}, y, g) = \alpha \cdot L_\mathrm{MSE}(x, \hat{x}) + (1
 \end{equation}
 
 where $x$ is the input, $\hat{x}$ is the reconstructed output, $z$ and $\tilde{z}$ are the original and quantized latents, $y$ and $g$ represent the discriminator and generator outputs, and $\alpha, \eta, \gamma$ are weighting coefficients. As described before, for the purposes of this thesis, the adversarial training loss is omitted. 
+
+% add about how we do not make a test to see if it works here. 
 
 \subsection{Proposed Implementations}
 
