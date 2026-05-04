@@ -1,18 +1,23 @@
 % CREATED BY DAVID FRISK, 2016
 \chapter{Experimental Results}
 
-Within this chapter the results for the experiments for phase one and two are presented. The main goal is to answer research questions one and two. 
+Within this chapter the results of the experiments are presented. The results are presented in order of importance, starting with the key findings and then comparing each neural compression method per metric. 
 
-\section{Phase 1 Experiments}
+\section{Key Findings}
 
-First, the efficacy of the two baseline models presented in Chapter~\ref{chap:methods} when applied to IoT and automotive data is determined. For this, both these baseline models were implemented according to the architecture outlined in Chapter~\ref{chap:methods}.
+Top-line result: one clear sentence naming the best model and the primary metric (value + CI).
+Secondary wins: 1–2 bullets for notable trade-offs or dataset-specific wins.
+Major negative / surprise: 1 bullet about what underperformed or an unexpected result.
+Practical implication: 1 sentence about which model(s) to prefer for specific use-cases.
+Link to figures: short pointers to the supporting table/plot numbers.
 
-\subsection{The Problem with Continuous-latent Autoencoders}
+\section{Comparative Evaluation}
 
-The TCN-RNN continuous-latent autoencoder is first evaluated on the appliances energy dataset used by Zheng and Zhang~\cite{Zheng2023, Candanedo2017}. The use case the authors present in their paper uses two channels: ``Appliances'' and ``Windspeed''. The training goal is to compress and reconstruct these two signals. The training setup for this first experiment is purposefully kept as close as possible to the authors setup. 
+The two dimensions along wich each of the neural compression methods are evaluated are compressione performance and downstream task performance, as outlined in Chapter~\ref{chap:methods}. In this section all methods will 
 
-\dots %TBD
+\subsection{Compression Performance}
 
-\subsection{Applying EdgeCodec to Multimodal IoT and Automotive Data}
+\subsection{Downstream Task Performance}
 
-Because the EdgeCodec architecture was copied almost one to one from the EdgeCodec Github repository, the implementation correctness will not be tested on a deticated use case. Instead, EdgeCodec is directly applied to 
+
+
