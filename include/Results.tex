@@ -6,11 +6,11 @@ Within this chapter the results of the experiments are presented. The results ar
 \section{Key Findings}
 
 - TCN-RNN is consistently worse than discrete-latent methods at much lower CR.
-- UniEdgeCodec tends to improve correlation with one signal exception (lights).
-- UniEdgeCodec also improves perceptual quality which suggests that correlation and perceptual quality are correlated.
 - No correlation between mean MSE and mean correlation.
+- UniEdgeCodec tends to improve correlation with one signal exception (lights). But at the cost of reconstruction MSE. 
+- UniEdgeCodec also improves perceptual quality which suggests that correlation and perceptual quality are correlated.
 - The performance of TAEdgeCodec varies widely between the two datasets.
-- Task difficulty (regression vs. classification): All models perform noticeably worse on appliances than EMOB—lower correlations, higher MSE, and lower utility retention. For example, UniEdgeCodec drops from 0.962 correlation (EMOB) to 0.677 (appliances). This suggests the regression task is genuinely harder. (Implicitly mentioned in your earlier hypothesis but not in Key Findings)
+- Task difficulty (regression vs. classification): All models perform noticeably worse on appliances than EMOB—lower correlations, higher MSE, and lower utility retention. For example, UniEdgeCodec drops from 0.962 correlation (EMOB) to 0.677 (appliances). This suggests the regression task is genuinely harder. 
 - Discrete and discontinuous signals are harder for non UniEdgeCodec models when in comes to reconstruciton quality. 
 
 \section{Comparative Evaluation}

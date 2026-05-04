@@ -5,8 +5,24 @@
 
 - Continuous latent compression is the main bottleneck at high CR. Discrete latent structure helps, but model objective matters too.
 
-- UniEdgeCodec’s perceptual objective improves correlation, especially once the lights outlier is excluded.
-
 - Downstream utility is not perfectly explained by reconstruction MSE, so task sensitivity and feature preservation need to be discussed separately. The lower utility retention on the regression task suggests that the downstream objective is more sensitive to reconstruction errors than the classification task. As a result, TAEdgeCodec may allocate its representational capacity less effectively for reconstruction when the downstream task depends on preserving fine-grained continuous variation.
+
+Complete Framework
+Learning Objcetives:
+- EdgeCodec = local value matching
+- UniEdgeCodec = global pattern retention + local value matching 
+- TAEdgeCodec (for Regression) = correlation between signal and target + local value matching 
+- TAEdgeCodec (for Classification) = dependent on temporal patterns and temporal retention + local value matching 
+
+Metrics: 
+- MSE = local value matching
+- Correlation = global pattern retention 
+- Regression-utility-retention = correlation between signal and target
+- Classification-utility-retention = global outlier patterns
+
+Expected Results: 
+- EdgeCodec should be good at MSE. 
+- UniEdgeCodec should be good at correlation and classification-utilit-retention. 
+- TAEdgeCodec should be fairly good at classification-utility-retention and in the case of regression it should fall of in terms of MSE and correlation, because the goal is not the same. 
 
 \section{Conclusion}
