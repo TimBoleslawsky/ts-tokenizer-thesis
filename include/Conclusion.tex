@@ -3,8 +3,10 @@
 
 \section{Discussion}
 
-Mechanistic explanations (why a model won).
-Broader implications and recommendations beyond immediate use-cases.
-Limitations, theoretical interpretation, future work.
+- Continuous latent compression is the main bottleneck at high CR. Discrete latent structure helps, but model objective matters too.
+
+- UniEdgeCodec’s perceptual objective improves correlation, especially once the lights outlier is excluded.
+
+- Downstream utility is not perfectly explained by reconstruction MSE, so task sensitivity and feature preservation need to be discussed separately. The lower utility retention on the regression task suggests that the downstream objective is more sensitive to reconstruction errors than the classification task. As a result, TAEdgeCodec may allocate its representational capacity less effectively for reconstruction when the downstream task depends on preserving fine-grained continuous variation.
 
 \section{Conclusion}

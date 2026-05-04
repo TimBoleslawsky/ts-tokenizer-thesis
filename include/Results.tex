@@ -7,9 +7,10 @@ Within this chapter the results of the experiments are presented. The results ar
 
 - TCN-RNN is consistently worse than discrete-latent methods at much lower CR.
 - UniEdgeCodec tends to improve correlation with one signal exception (lights).
+- UniEdgeCodec also improves perceptual quality which suggests that correlation and perceptual quality are correlated.
 - No correlation between mean MSE and mean correlation.
 - The performance of TAEdgeCodec varies widely between the two datasets.
-- UniEdgeCodec also improves perceptual quality which suggests that correlation and perceptual quality are correlated.
+- Task difficulty (regression vs. classification): All models perform noticeably worse on appliances than EMOB—lower correlations, higher MSE, and lower utility retention. For example, UniEdgeCodec drops from 0.962 correlation (EMOB) to 0.677 (appliances). This suggests the regression task is genuinely harder. (Implicitly mentioned in your earlier hypothesis but not in Key Findings)
 - Discrete and discontinuous signals are harder for non UniEdgeCodec models when in comes to reconstruciton quality. 
 
 \section{Comparative Evaluation}
@@ -51,12 +52,12 @@ Model & Meaned MSE $\downarrow$ & Meaned correlation $\uparrow$ \\
 TCN-RNN & 0.770741 & 0.651379 \\
 EdgeCodec & \textbf{0.416471} & \textbf{0.705981} \\
 UniEdgeCodec & 0.467329 & 0.677110 \\
-TAEdgeCodec & 0.604076 & 0.436676 \\
+TAEdgeCodec & 0.487089 & 0.569029 \\
 \hline
 \end{tabular}
 \end{table}
 
-On the appliances energy dataset, EdgeCodec is the strongest model overall, with the lowest meaned MSE and the highest meaned correlation. UniEdgeCodec follows closely behind, while TAEdgeCodec shows a larger drop in both metrics. TCN-RNN is the weakest of the four models on meaned MSE, although its meaned correlation remains above TAEdgeCodec.
+On the appliances energy dataset, EdgeCodec is the strongest model overall, with the lowest meaned MSE and the highest meaned correlation. UniEdgeCodec follows closely behind. The updated TAEdgeCodec run improves over TCN-RNN on meaned MSE, but its meaned correlation remains below TCN-RNN and below the other EdgeCodec-based models.
 
 The EMOB results show a clear signal-level outlier: Amps is consistently the hardest channel to reconstruct, with correlations around 0.32 for both EdgeCodec and TAEdgeCodec, while Volts and Temp 1 remain above 0.99. This is reflected in the meaned correlation values, where the single low-performing channel pulls the overall score down despite strong reconstruction of the remaining signals. The appliances energy results show a different pattern. Here, the most problematic channels are T\_out, RH\_out, Windspeed, and especially Tdewpoint, while the smoother signals such as Press\_mm\_hg and lights remain easier to reconstruct. In other words, the meaned MSE highlights where the reconstruction error is concentrated, while the meaned correlation shows whether the temporal structure of the signal is preserved across the full set of channels.
 
@@ -84,12 +85,12 @@ EdgeCodec & Appliances energy & 88.33 \\
 UniEdgeCodec & EMOB & 94.20 \\
 UniEdgeCodec & Appliances energy & 83.75 \\
 TAEdgeCodec & EMOB & 92.38 \\
-TAEdgeCodec & Appliances energy & 89.95 \\
+TAEdgeCodec & Appliances energy & 89.33 \\
 \hline
 \end{tabular}
 \end{table}
 
-The highest utility retention is achieved by UniEdgeCodec on EMOB, while TAEdgeCodec is strongest on the appliances energy dataset. Among the appliances results, EdgeCodec and TAEdgeCodec retain more downstream utility than UniEdgeCodec, even though EdgeCodec remains the strongest model on the reconstruction metrics.
+The highest utility retention is achieved by UniEdgeCodec on EMOB, while TAEdgeCodec is strongest on the appliances energy dataset. Among the appliances results, TAEdgeCodec retains the most downstream utility, followed by EdgeCodec, while UniEdgeCodec is lowest.
 
 
 
