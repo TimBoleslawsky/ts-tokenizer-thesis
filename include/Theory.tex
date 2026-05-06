@@ -60,7 +60,7 @@ The TCN-RNN model is composed of four main components: the TCN-RNN encoder, a li
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.40\linewidth]{figure/tcn-rnn.png}
-\caption{TCN-RNN Architecture} % Figure text below figure
+\caption{TCN-RNN architecture} % Figure text below figure
 \label{fig:tcn-rnn-architecture}
 \end{figure}
 
@@ -68,14 +68,14 @@ The TCN encoder consists of a stack of temporal convolutional network (TCN) resi
 
 \begin{figure}[h]
 \centering
-\subfloat[TCN Encoder\label{fig:tcn-encoder}]{%
+\subfloat[TCN encoder\label{fig:tcn-encoder}]{%
     \includegraphics[width=0.48\linewidth]{figure/tcn-encoder.png}
 }
 \hfill
-\subfloat[GRU Decoder\label{fig:gru-decoder}]{%
+\subfloat[GRU decoder\label{fig:gru-decoder}]{%
     \includegraphics[width=0.48\linewidth]{figure/gru-decoder.png}
 }
-\caption{Detailed TCN-RNN Components} % Figure text below figure
+\caption{Detailed TCN-RNN components} % Figure text below figure
 \label{fig:tcn-rnn-components}
 \end{figure}
 
@@ -91,6 +91,8 @@ L_{\mathrm{MSE}} = \frac{1}{T} \sum_{t=1}^{T} \sum_{d=1}^{D} \left( x_t^d - \hat
 
 This function is used as the loss function for the TCN-RNN model, while the mean-reduced version of MSE is used to evaluate all the models, as described earlier in this chapter.
 
+To validate the correctness of this implementation, a small use case from the paper is reporduced. In the paper Zheng and Zhang~\cite{Zheng2023} use the appliances energy dataset, which will be introduced at a later stage, to compress and reconstruct the two signals ``Windspeed'' and ``Appliances''. The authors present a summed MSE reconstruction error of 0.178. The implemented TCN-RNN baseline achieves a summed MSE reconstruction error of 0.133 with the same configurations, showing that it works as intended.  
+
 \subsection{Baseline 2: EdgeCodec}
 
 The EdgeCodec implementation leverages residual vector quantization (RVQ) and a heavyweight decoder to enable a lightweight encoder architecture, which is edge-optimized~\cite{Hodo2025}. The compression mechanism of the EdgeCodec architecture is fundamentally different from the linear bottleneck employed by the TCN-RNN model. The compression achieved by EdgeCodec is a mixture of geometric compression in the encoder and compression in the information theoretic sense through quantization. The EdgeCodec encoder compresses both along the channel and the temporal axis and works as a dimensionality reduction mechanism. The quantization mechanism employed by EdgeCodec is a 4-layer hierarchical RVQ setup. The full EdgeCodec architecture is displayed in Figure~\ref{fig:edgecodec-architecture}. 
@@ -100,7 +102,7 @@ Hodo et al.~\cite{Hodo2025} provide the full code for the EdgeCodec implementati
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.40\linewidth]{figure/edgecodec.png}
-\caption{EdgeCodec Architecture} % Figure text below figure
+\caption{EdgeCodec architecture} % Figure text below figure
 \label{fig:edgecodec-architecture}
 \end{figure}
 
@@ -109,7 +111,7 @@ The EdgeCodec encoder is intentionally lightweight. In essence, the EdgeCodec en
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.40\linewidth]{figure/edgecodec-encoder.png}
-\caption{EdgeCodec Encoder} % Figure text below figure
+\caption{EdgeCodec encoder} % Figure text below figure
 \label{fig:edgecodec-encoder}
 \end{figure}
 
@@ -118,7 +120,7 @@ Because the EdgeCodec encoder is purposefully kept lightweight, the authors comp
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.30\linewidth]{figure/edgecodec-decoder.png}
-\caption{EdgeCodec Decoder} % Figure text below figure
+\caption{EdgeCodec decoder} % Figure text below figure
 \label{fig:edgecodec-decoder}
 \end{figure}
 
@@ -131,3 +133,5 @@ L(x, \hat{x}, z, \tilde{z}, y, g) = \alpha \cdot L_\mathrm{MSE}(x, \hat{x}) + (1
 \end{equation}
 
 where $x$ is the input, $\hat{x}$ is the reconstructed output, $z$ and $\tilde{z}$ are the original and quantized latents, $y$ and $g$ represent the discriminator and generator outputs, and $\alpha, \eta, \gamma$ are weighting coefficients. As described before, for the purposes of this thesis, the adversarial training loss is omitted.
+
+Because the presented implementation of the EdgeCodec baseline is heavily based on the provided code by the authors and largely reproduced one to one, an experiment to validate the correctness of this reproduction of the EdgeCodec model is omitted. 
