@@ -11,6 +11,8 @@ DECODER LOSS ANALYSIS
 ============================================================
 
 Normalized MSE (summed): 0.212189
+Normalized MSE (meaned): 0.070730
+Correlation (meaned): 0.751513
 
 Per-Channel Metrics:
 ------------------------------------------------------------
@@ -89,4 +91,4 @@ Reconstructed Signal Performance:
   f1: 0.099369
   auc: 0.600173
 
-Utility Retention: 92.14%
+Utility Retention: 52.69%

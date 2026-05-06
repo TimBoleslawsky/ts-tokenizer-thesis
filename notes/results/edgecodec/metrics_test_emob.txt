@@ -91,4 +91,4 @@ Reconstructed Signal Performance:
   f1: 0.134543
   auc: 0.627937
 
-Utility Retention: 92.08%
+Utility Retention: 71.30%

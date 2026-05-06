@@ -53,7 +53,7 @@ The goal is to use industry-relevant data while also ensuring that the methods a
 \begin{figure}[h]
 \centering
 \includegraphics[width=1.0\linewidth]{figure/emob-data.png}
-\caption{Visualization of the Volvo EMOB Dataset} % Figure text below figure
+\caption{Visualization of the Volvo EMOB dataset} % Figure text below figure
 \label{fig:emob-data}
 \end{figure}
 
@@ -61,14 +61,14 @@ For input handling and preprocessing, it is important that the time-series data 
 
 \begin{figure}[h]
 \centering
-\subfloat[First four Signals of the Appliances Energy Dataset\label{fig:appliances-data-1}]{%
+\subfloat[First four signals of the appliances energy dataset\label{fig:appliances-data-1}]{%
     \includegraphics[width=1.0\linewidth]{figure/ae-data-1.png}
 }
 \\[0.8em]
-\subfloat[Last three Signals of the Appliances Energy Dataset\label{fig:appliances-data-2}]{%
+\subfloat[Last three signals of the appliances energy dataset\label{fig:appliances-data-2}]{%
     \includegraphics[width=1.0\linewidth]{figure/ae-data-2.png}
 }
-\caption{Visualization of the Appliances Energy Dataset} % Figure text below figure
+\caption{Visualization of the appliances energy dataset} % Figure text below figure
 \label{fig:appliances-data}
 \end{figure}
 
@@ -99,7 +99,7 @@ The TCN-RNN model is composed of four main components: the TCN-RNN encoder, a li
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.40\linewidth]{figure/tcn-rnn.png}
-\caption{TCN-RNN Architecture} % Figure text below figure
+\caption{TCN-RNN architecture} % Figure text below figure
 \label{fig:tcn-rnn-architecture}
 \end{figure}
 
@@ -107,14 +107,14 @@ The TCN encoder consists of a stack of temporal convolutional network (TCN) resi
 
 \begin{figure}[h]
 \centering
-\subfloat[TCN Encoder\label{fig:tcn-encoder}]{%
+\subfloat[TCN encoder\label{fig:tcn-encoder}]{%
     \includegraphics[width=0.48\linewidth]{figure/tcn-encoder.png}
 }
 \hfill
-\subfloat[GRU Decoder\label{fig:gru-decoder}]{%
+\subfloat[GRU decoder\label{fig:gru-decoder}]{%
     \includegraphics[width=0.48\linewidth]{figure/gru-decoder.png}
 }
-\caption{Detailed TCN-RNN Components} % Figure text below figure
+\caption{Detailed TCN-RNN components} % Figure text below figure
 \label{fig:tcn-rnn-components}
 \end{figure}
 
@@ -141,7 +141,7 @@ Hodo et al.~\cite{Hodo2025} provide the full code for the EdgeCodec implementati
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.40\linewidth]{figure/edgecodec.png}
-\caption{EdgeCodec Architecture} % Figure text below figure
+\caption{EdgeCodec architecture} % Figure text below figure
 \label{fig:edgecodec-architecture}
 \end{figure}
 
@@ -150,7 +150,7 @@ The EdgeCodec encoder is intentionally lightweight. In essence, the EdgeCodec en
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.40\linewidth]{figure/edgecodec-encoder.png}
-\caption{EdgeCodec Encoder} % Figure text below figure
+\caption{EdgeCodec encoder} % Figure text below figure
 \label{fig:edgecodec-encoder}
 \end{figure}
 
@@ -159,7 +159,7 @@ Because the EdgeCodec encoder is purposefully kept lightweight, the authors comp
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.30\linewidth]{figure/edgecodec-decoder.png}
-\caption{EdgeCodec Decoder} % Figure text below figure
+\caption{EdgeCodec decoder} % Figure text below figure
 \label{fig:edgecodec-decoder}
 \end{figure}
 
@@ -233,7 +233,7 @@ The task loss $L_\mathrm{task}$ is defined as a smooth l1 huber loss for the reg
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.30\linewidth]{figure/task-head.png}
-\caption{Task Head Architecture} % Figure text below figure
+\caption{Task head architecture} % Figure text below figure
 \label{fig:task-head}
 \end{figure}
 
