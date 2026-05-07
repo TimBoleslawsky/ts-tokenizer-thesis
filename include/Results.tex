@@ -40,7 +40,32 @@ TAEdgeCodec & 0.047 $\pm$ 0.047 & 0.765 $\pm$ 0.035 & 67.0 $\pm$ 13.8\% & 0.538 
 }
 \end{table}
 
-The numbers show two different types of behaviour. UniEdgeCodec is the more stable model, especially on EMOB, where the standard deviation in correlation is only 0.007. When training convergence is taken into account as well, this stability is further emphasized. UniEdgeCodec consistently converges over 60--70 epochs, while TAEdgeCodec can collapse and converge at epoch 5, as is the case with seed 100 and the Volvo EMOB dataset. TAEdgeCodec can reach strong utility retention, but the much larger EMOB standard deviation in utility retention makes that result less reliable as a general pattern.
+The numbers show two different types of behaviour. UniEdgeCodec is the more stable model, especially on EMOB, where the standard deviation in correlation is only 0.007. When training convergence is taken into account as well, this stability is further emphasized. UniEdgeCodec consistently converges over 60--70 epochs, while TAEdgeCodec can collapse and converge at epoch 5, as is the case with seed 100 and the Volvo EMOB dataset. The complete trainig convergence data is shown in Table~\ref{tab:epoch-convergence} TAEdgeCodec can reach strong utility retention, but the much larger EMOB standard deviation in utility retention makes that result less reliable as a general pattern.
+
+\begin{table}[H]
+\centering
+\small
+\caption{Epoch convergence (final epoch and validation loss) for UniEdgeCodec and TAEdgeCodec across datasets and seeds.}
+\label{tab:epoch-convergence}
+\begin{tabular}{llccc}
+\hline
+Model & Dataset & Seed & Final epoch & Val. loss \\
+\hline
+UniEdgeCodec & EMOB & s42 & 61 & 0.0713 \\
+UniEdgeCodec & EMOB & s100 & 58 & 0.0746 \\
+UniEdgeCodec & EMOB & s200 & 59 & 0.0873 \\
+UniEdgeCodec & Appliances energy & s42 & 71 & 1.2485 \\
+UniEdgeCodec & Appliances energy & s100 & 58 & 1.6870 \\
+UniEdgeCodec & Appliances energy & s200 & 62 & 1.5236 \\
+TAEdgeCodec & EMOB & s42 & 61 & 0.0264 \\
+TAEdgeCodec & EMOB & s100 & 5 & 0.0909 \\
+TAEdgeCodec & EMOB & s200 & 50 & 0.0257 \\
+TAEdgeCodec & Appliances energy & s42 & 11 & 1.1814 \\
+TAEdgeCodec & Appliances energy & s100 & 40 & 1.0563 \\
+TAEdgeCodec & Appliances energy & s200 & 31 & 1.1054 \\
+\hline
+\end{tabular}
+\end{table}
 
 Looking at the seed-specific metrics for each dataset, it can also be seen that there appears to be a correlation between reconstruction quality and downstream task utility retention in the Volvo EMOB use case. Utility retention tends to deteriorate when reconstruction MSE and reconstruction correlation become worse for the Volvo EMOB use case. The same is not true for the appliances energy dataset. Table~\ref{tab:uni-ta-per-seed} shows these signal-specific metrics.
 
@@ -99,7 +124,7 @@ When looking at signal-specific failure modes, a pattern becomes clear. UniEdgeC
 
 Figure~\ref{fig:amps-signal} shows the reconstruction of the ``Amps'' signal, which exemplifies the behavior of these models for irregular and discontinuous signals. Here a clear improvement of perceptual reconstruction quality and reconstruction MSE from the TAEdgeCodec model to the UniEdgeCodec model can be seen. 
 
-When looking at the signal-specific metrics holistically, the pattern that the irregular and discontinuous signals (``Amps'' for the Volvo EMOB dataset and ``Windspeed'', ``Visibility'', ``Tdewpoint'' for the appliances energy dataset) are consistently improved by the UniEdgeCodec model holds. It should be noted that the smooth and continuous signals tend to pay a bit in terms of reconstruction quality for the improvements in the irregular and discontinuous signals, and that the ``lights'' signal suffers the worst loss in correlation when comparing the TAEdgeCodec metrics to the UniEdgeCodec metrics. Table~\ref{tab:uni-ta-signal-specific} presents the mean MSE and correlation, with standard deviations over seeds, for each signal in both the EMOB and appliances energy datasets.
+The pattern that the irregular and discontinuous signals (``Amps'' for the Volvo EMOB dataset and ``Windspeed'', ``Visibility'', ``Tdewpoint'' for the appliances energy dataset) are consistently improved by the UniEdgeCodec model holds, when observing the signal-specific metrics holistically. It should be noted that the smooth and continuous signals tend to pay a bit in terms of reconstruction quality for the improvements in the irregular and discontinuous signals, and that the ``lights'' signal suffers the worst loss in correlation when comparing the TAEdgeCodec metrics to the UniEdgeCodec metrics. Table~\ref{tab:uni-ta-signal-specific} presents the mean MSE and correlation, with standard deviations over seeds, for each signal in both the EMOB and appliances energy datasets.
 
 \begin{table}[H]
 \centering
@@ -129,7 +154,7 @@ Appliances Energy & Tdewpoint & 0.358 $\pm$ 0.012 & 0.625 $\pm$ 0.019 & 0.624 $\
 
 \subsection{EdgeCodec}
 
-Table~\ref{tab:edge-summary} shows the baseline EdgeCodec results. The model generally performs well on reconstruction tasks, especially reconstruction MSE, and is surprisingly competitive with the TAEdgeCodec and UniEdgeCodec models at utility retention without being specifically trained for it. EdgeCodec also exhibits similar instability to the TAEdgeCodec model, with standard deviations generally being larger than those observed with the UniEdgeCodec model. This is also observable in the training convergence stability, though to a lesser extent than for the TAEdgeCodec model. The EdgeCodec model never completely collapses, but can converge anywhere between epoch 23 and epoch 75 in the appliance energy case.
+Table~\ref{tab:edge-summary} shows the baseline EdgeCodec results. The model generally performs well on reconstruction tasks, especially reconstruction MSE, and is surprisingly competitive with the TAEdgeCodec and UniEdgeCodec models at utility retention without being specifically trained for it. EdgeCodec also exhibits similar instability to the TAEdgeCodec model, with standard deviations generally being larger than those observed with the UniEdgeCodec model. This is also observable in the training convergence stability, though to a lesser extent than for the TAEdgeCodec model. The EdgeCodec model never completely collapses, but can converge anywhere between epoch 23 and epoch 75 in the appliance energy case and between epoch 24 and epoch 40 in the Volvo EMOB case.
 
 \begin{table}[H]
 \centering
@@ -160,6 +185,7 @@ The TCN-RNN baseline is reported separately because it is not evaluated across t
 \small
 \caption{TCN-RNN reconstruction and compression results. The baseline is reported from a single run in each dataset, so no seed standard deviation is available.}
 \label{tab:tcn-summary}
+\resizebox{\textwidth}{!}{%
 \begin{tabular}{lcccc}
 \hline
 Dataset & Meaned MSE $\downarrow$ & Meaned Corr. $\uparrow$ & Utility & Compression ratio \\
@@ -168,6 +194,7 @@ EMOB & 0.123 & 0.726 & n/a & 3.0x \\
 Appliances Energy Dataset & 0.771 & 0.651 & n/a & 7.0x \\
 \hline
 \end{tabular}
+}
 \end{table}
 
 The TCN-RNN baseline is clearly behind the discrete-latent models in compression efficiency. Even where reconstruction is acceptable, the much lower compression ratio makes it less compelling than the discrete alternatives. Increasing the compression ratio from 3x to only 7x already massively deteriorates the reconstruction quality.
