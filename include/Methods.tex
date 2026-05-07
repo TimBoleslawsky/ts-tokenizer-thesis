@@ -63,7 +63,7 @@ The task loss $L_\mathrm{task}$ is defined as a smooth l1 huber loss for the reg
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.30\linewidth]{figure/task-head.png}
-\caption{Task Head Architecture} % Figure text below figure
+\caption{Task head architecture} % Figure text below figure
 \label{fig:task-head}
 \end{figure}
 
@@ -78,7 +78,7 @@ The goal is to use industry-relevant data while also ensuring that the methods a
 \begin{figure}[h]
 \centering
 \includegraphics[width=1.0\linewidth]{figure/emob-data.png}
-\caption{Visualization of the Volvo EMOB Dataset} % Figure text below figure
+\caption{Visualization of the Volvo EMOB dataset} % Figure text below figure
 \label{fig:emob-data}
 \end{figure}
 
@@ -86,14 +86,14 @@ For input handling and preprocessing, it is important that the time-series data 
 
 \begin{figure}[h]
 \centering
-\subfloat[First four Signals of the Appliances Energy Dataset\label{fig:appliances-data-1}]{%
+\subfloat[First four signals of the appliances energy dataset\label{fig:appliances-data-1}]{%
     \includegraphics[width=1.0\linewidth]{figure/ae-data-1.png}
 }
 \\[0.8em]
-\subfloat[Last three Signals of the Appliances Energy Dataset\label{fig:appliances-data-2}]{%
+\subfloat[Last three signals of the appliances energy dataset\label{fig:appliances-data-2}]{%
     \includegraphics[width=1.0\linewidth]{figure/ae-data-2.png}
 }
-\caption{Visualization of the Appliances Energy Dataset} % Figure text below figure
+\caption{Visualization of the appliances energy dataset} % Figure text below figure
 \label{fig:appliances-data}
 \end{figure}
 
@@ -174,19 +174,22 @@ Certain parameters have been set with the intent of roughly alligning the CR of 
 Table~\ref{tab:compression-ratios-emob} presents the computed CR for the three architectures evaluated on the Volvo EMOB dataset, demonstrating that the architectures achieve comparable compression performance despite their different internal configurations.
 
 \begin{table}[h]
+\small
 \centering
 \caption{Compression Ratio Comparison for EMOB Dataset (3 channels, 128 timesteps)}
 \label{tab:compression-ratios-emob}
-\begin{tabular}{lcccc}
-\hline
-\textbf{Model} & \textbf{Codebook} & \textbf{Emb.} & \textbf{Num} & \textbf{CR} \\
-& \textbf{Size} & \textbf{Dim.} & \textbf{Quant.} & \\
-\hline
-EdgeCodec & 768 & 32 & 2 & 213.7$\times$ \\
-UniEdgeCodec & 1000 & 64 & 2 & 204.8$\times$ \\
-TAEdgeCodec & 768 & 64 & 2 & 213.7$\times$ \\
-\hline
-\end{tabular}
+\resizebox{7cm}{!}{%
+    \begin{tabular}{lcccc}
+    \hline
+    \textbf{Model} & \textbf{Codebook} & \textbf{Emb.} & \textbf{Num} & \textbf{CR} \\
+    & \textbf{Size} & \textbf{Dim.} & \textbf{Quant.} & \\
+    \hline
+    EdgeCodec & 768 & 32 & 2 & 213.7$\times$ \\
+    UniEdgeCodec & 1000 & 64 & 2 & 204.8$\times$ \\
+    TAEdgeCodec & 768 & 64 & 2 & 213.7$\times$ \\
+    \hline
+    \end{tabular}
+}
 \end{table}
 
 Similarly, Table~\ref{tab:compression-ratios-appliances} shows the computed CR for the appliances energy dataset. Despite the larger number of channels and longer window size compared to the EMOB dataset, all three architectures maintain comparable compression performance, achieving between 240$\times$ and 230$\times$ compression.
@@ -195,16 +198,18 @@ Similarly, Table~\ref{tab:compression-ratios-appliances} shows the computed CR f
 \centering
 \caption{Compression Ratio Comparison for Appliances Energy Dataset (7 channels, 144 timesteps)}
 \label{tab:compression-ratios-appliances}
-\begin{tabular}{lcccc}
-\hline
-\textbf{Model} & \textbf{Codebook} & \textbf{Emb.} & \textbf{Num} & \textbf{CR} \\
-& \textbf{Size} & \textbf{Dim.} & \textbf{Quant.} & \\
-\hline
-EdgeCodec & 768 & 72 & 2 & 240.4$\times$ \\
-UniEdgeCodec & 1000 & 72 & 2 & 230.4$\times$ \\
-TAEdgeCodec & 768 & 64 & 2 & 240.4$\times$ \\
-\hline
-\end{tabular}
+\resizebox{7cm}{!}{%
+  \begin{tabular}{lcccc}
+  \hline
+  \textbf{Model} & \textbf{Codebook} & \textbf{Emb.} & \textbf{Num} & \textbf{CR} \\
+  & \textbf{Size} & \textbf{Dim.} & \textbf{Quant.} & \\
+  \hline
+  EdgeCodec & 768 & 72 & 2 & 240.4$\times$ \\
+  UniEdgeCodec & 1000 & 72 & 2 & 230.4$\times$ \\
+  TAEdgeCodec & 768 & 64 & 2 & 240.4$\times$ \\
+  \hline
+  \end{tabular}%
+}
 \end{table}
 
 \section{Threats to Validity}

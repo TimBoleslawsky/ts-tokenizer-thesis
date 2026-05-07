@@ -1,8 +1,4 @@
 % CREATED BY DAVID FRISK, 2016
 \chapter{Conclusion}
 
-You may consider to instead divide this chapter into discussion of the results and a summary. 
-
-\section{Discussion}
-
-\section{Conclusion}
+Two important phenomena are highlighted when summarizing the experimental results and taking possible explanations into account. First, continuous latent autoencoders, at least those with deterministic encoders, do not have the capacity to achieve satisfactory multimodal compression results while remaining lightweight enough to be edge-compatible. Second, when constructing neural compression methods, it is vital to be conscious of the optimization landscape. The experiments make clear that the limits of representational capacity for edge-optimized neural compression methods are real and must be accounted for. When constraining the optimization landscape, for example through the introduction of a partitioned codebook, stability can be gained. When loosening the optimization landscape, for example by adding a task loss term, models become less reliable but also more flexible. The higher peak utility retention of both TAEdgeCodec and EdgeCodec shows that these models benefit from this flexibility, whereas UniEdgeCodec is more constrained. For neural compression methods that produce data for downstream model training, this means that being conscious of how the downstream task goals and the training goals align is vital.
