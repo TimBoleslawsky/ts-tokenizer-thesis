@@ -174,19 +174,22 @@ Certain parameters have been set with the intent of roughly alligning the CR of 
 Table~\ref{tab:compression-ratios-emob} presents the computed CR for the three architectures evaluated on the Volvo EMOB dataset, demonstrating that the architectures achieve comparable compression performance despite their different internal configurations.
 
 \begin{table}[h]
+\small
 \centering
 \caption{Compression Ratio Comparison for EMOB Dataset (3 channels, 128 timesteps)}
 \label{tab:compression-ratios-emob}
-\begin{tabular}{lcccc}
-\hline
-\textbf{Model} & \textbf{Codebook} & \textbf{Emb.} & \textbf{Num} & \textbf{CR} \\
-& \textbf{Size} & \textbf{Dim.} & \textbf{Quant.} & \\
-\hline
-EdgeCodec & 768 & 32 & 2 & 213.7$\times$ \\
-UniEdgeCodec & 1000 & 64 & 2 & 204.8$\times$ \\
-TAEdgeCodec & 768 & 64 & 2 & 213.7$\times$ \\
-\hline
-\end{tabular}
+\resizebox{7cm}{!}{%
+    \begin{tabular}{lcccc}
+    \hline
+    \textbf{Model} & \textbf{Codebook} & \textbf{Emb.} & \textbf{Num} & \textbf{CR} \\
+    & \textbf{Size} & \textbf{Dim.} & \textbf{Quant.} & \\
+    \hline
+    EdgeCodec & 768 & 32 & 2 & 213.7$\times$ \\
+    UniEdgeCodec & 1000 & 64 & 2 & 204.8$\times$ \\
+    TAEdgeCodec & 768 & 64 & 2 & 213.7$\times$ \\
+    \hline
+    \end{tabular}
+}
 \end{table}
 
 Similarly, Table~\ref{tab:compression-ratios-appliances} shows the computed CR for the appliances energy dataset. Despite the larger number of channels and longer window size compared to the EMOB dataset, all three architectures maintain comparable compression performance, achieving between 240$\times$ and 230$\times$ compression.
@@ -195,16 +198,18 @@ Similarly, Table~\ref{tab:compression-ratios-appliances} shows the computed CR f
 \centering
 \caption{Compression Ratio Comparison for Appliances Energy Dataset (7 channels, 144 timesteps)}
 \label{tab:compression-ratios-appliances}
-\begin{tabular}{lcccc}
-\hline
-\textbf{Model} & \textbf{Codebook} & \textbf{Emb.} & \textbf{Num} & \textbf{CR} \\
-& \textbf{Size} & \textbf{Dim.} & \textbf{Quant.} & \\
-\hline
-EdgeCodec & 768 & 72 & 2 & 240.4$\times$ \\
-UniEdgeCodec & 1000 & 72 & 2 & 230.4$\times$ \\
-TAEdgeCodec & 768 & 64 & 2 & 240.4$\times$ \\
-\hline
-\end{tabular}
+\resizebox{7cm}{!}{%
+  \begin{tabular}{lcccc}
+  \hline
+  \textbf{Model} & \textbf{Codebook} & \textbf{Emb.} & \textbf{Num} & \textbf{CR} \\
+  & \textbf{Size} & \textbf{Dim.} & \textbf{Quant.} & \\
+  \hline
+  EdgeCodec & 768 & 72 & 2 & 240.4$\times$ \\
+  UniEdgeCodec & 1000 & 72 & 2 & 230.4$\times$ \\
+  TAEdgeCodec & 768 & 64 & 2 & 240.4$\times$ \\
+  \hline
+  \end{tabular}%
+}
 \end{table}
 
 \section{Threats to Validity}
