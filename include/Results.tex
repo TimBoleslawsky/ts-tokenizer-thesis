@@ -5,9 +5,9 @@ Within this chapter, the results of the experiments are presented. They are orde
 
 \section{Key Findings}
 
-UniEdgeCodec shows the strongest and most consistent reconstruction correlation of the tested methods. For EMOB, across the three seeds, its mean correlation is \(0.960 \pm 0.007\), compared with \(0.780 \pm 0.034\) for EdgeCodec and \(0.765 \pm 0.035\) for TAEdgeCodec. This is especially notable for irregular and discontinuous signals like ``Amps'' in the Volvo EMOB dataset or ``Visibility'' in the appliances energy dataset. The main exception is the \texttt{lights} channel in the appliances energy dataset, where the UniEdgeCodec correlation remains much lower than for the other channels. At the same time, the reconstruction MSE of smooth and continuous signals tends to suffer somewhat from the improved handling of irregular and discontinuous signals. The improvement in correlation also leads to better perceptual reconstruction quality, which becomes obvious when comparing irregular and discontinuous signals with smooth and continuous signals. Overall, the UniEdgeCodec model is more stable in terms of metric variance and training convergence. Across the board, mean correlation and utility retention are more stable for the UniEdgeCodec model, and mean MSE is more stable in one of the two examined cases.
+UniEdgeCodec shows the strongest and most consistent reconstruction correlation of the tested methods. For EMOB, across the three seeds, its mean correlation is \(0.960 \pm 0.007\), compared with \(0.780 \pm 0.034\) for EdgeCodec and \(0.765 \pm 0.035\) for TAEdgeCodec. This is especially notable for irregular and discontinuous signals like ``Amps'' in the Volvo EMOB dataset or ``Visibility'' in the appliances energy dataset. At the same time, the reconstruction MSE of smooth and continuous signals tends to suffer somewhat from the improved handling of irregular and discontinuous signals. The improvement in correlation also leads to better perceptual reconstruction quality, which becomes obvious when comparing irregular and discontinuous signals with smooth and continuous signals. Overall, the UniEdgeCodec model is more stable in terms of metric variance and training convergence. Across the board, mean correlation, utility retention, and training convergence are more stable for the UniEdgeCodec model, and mean MSE is more stable in one of the two examined cases.
 
-TAEdgeCodec does not consistently improve upon EdgeCodec on EMOB, and its behaviour is strongly seed dependent. Across the three EMOB seeds, its mean correlation is \(0.765 \pm 0.035\) and its utility retention is \(67.0 \pm 13.8\%\). The results for the appliances energy dataset tell a similar story. Here the mean correlation is \(0.515 \pm 0.070\), while utility retention remains high at \(89.4 \pm 0.5\%\). Also notable is the poor convergence of the TAEdgeCodec model for seed 100 on the Volvo EMOB dataset. The model therefore seems capable of preserving downstream utility, but the balance between reconstruction and task performance is unstable and depends on both the dataset and the seed.
+TAEdgeCodec does not consistently improve upon the EdgeCodec model in terms of utility retention and reconstruction performance. Additionally, its behaviour is strongly seed dependent. Across the three EMOB seeds, its mean correlation is \(0.765 \pm 0.035\) and its utility retention is \(67.0 \pm 13.8\%\). The results for the appliances energy dataset tell a similar story. Here the mean correlation is \(0.515 \pm 0.070\), while utility retention remains high at \(89.4 \pm 0.5\%\). Also notable is the poor convergence of the TAEdgeCodec model for seed 100 on the Volvo EMOB dataset. The model therefore seems capable of preserving downstream utility, but the balance between reconstruction and task performance is unstable and depends on both the dataset and the seed.
 
 EdgeCodec remains a strong reconstructor, especially on the regression task. On EMOB, its mean correlation is \(0.780 \pm 0.034\) and its utility retention is \(65.1 \pm 10.8\%\). For the appliances energy dataset, the corresponding values are \(0.635 \pm 0.061\) and \(90.1 \pm 1.9\%\). The model is therefore competitive on reconstruction, but its utility retention is less stable than UniEdgeCodec on EMOB, and its reconstruction is generally weaker on the more difficult channels. The training stability of EdgeCodec lies somewhere between the stable UniEdgeCodec model and the unstable TAEdgeCodec model.
 
@@ -17,7 +17,7 @@ Across the EMOB runs, utility retention is more closely tied to reconstruction q
 
 \section{Empirical Evidence}
 
-Below, the empirical results supporting the key findings are presented. The tables summarize the reconstruction metrics and downstream utility retention values that motivate the discussion in the next chapter. First, the findings for the proposed models UniEdgeCodec and TAEdgeCodec are presented; then the two baselines EdgeCodec and TCN-RNN are compared.
+Below, selected empirical results supporting the key findings are presented. The complete empirical results are provided in Appendix~\ref{app:empirical-results}. The tables summarize the reconstruction metrics and downstream utility retention values that motivate the discussion in the next chapter. First, the findings for the proposed models UniEdgeCodec and TAEdgeCodec are presented; then the two baselines EdgeCodec and TCN-RNN are compared. 
 
 \subsection{UniEdgeCodec and TAEdgeCodec}
 
@@ -97,7 +97,7 @@ Appliances energy & TAEdgeCodec (s200) & 0.522684 & 0.539953 & 88.96\% \\
 }
 \end{table}
 
-When looking at signal-specific failure modes, a pattern becomes clear. UniEdgeCodec specifically targets the weakness of the TAEdgeCodec model in reconstructing irregular and discontinuous signals. Signals that are smooth and continuous are generally well reconstructed by the TAEdgeCodec model. Examples of such signals are the ``Temp'' signal in the Volvo EMOB dataset and the ``Press\_mm\_hg'' signal in the appliances energy dataset. Figure~\ref{fig:press-signal} presents the reconstruction of the ``Press\_mm\_hg'' signal for both the TAEdgeCodec and UniEdgeCodec models. A slight improvement for UniEdgeCodec is visible, but in general both models seem capable of handling these types of signals.
+When looking at signal-specific failure modes, a pattern becomes clear. UniEdgeCodec specifically targets the weakness of the TAEdgeCodec model in reconstructing irregular and discontinuous signals. Signals that are smooth and continuous are generally well reconstructed by the TAEdgeCodec model. Examples of such signals are the ``Temp 1'' signal in the Volvo EMOB dataset and the ``Press\_mm\_hg'' signal in the appliances energy dataset. Figure~\ref{fig:press-signal} presents the reconstruction of the ``Press\_mm\_hg'' signal for both the TAEdgeCodec and UniEdgeCodec models. A slight improvement for UniEdgeCodec is visible, but in general both models seem capable of handling these types of signals.
 
 \begin{figure}[h]
 \centering
@@ -124,7 +124,7 @@ When looking at signal-specific failure modes, a pattern becomes clear. UniEdgeC
 
 Figure~\ref{fig:amps-signal} shows the reconstruction of the ``Amps'' signal, which exemplifies the behavior of these models for irregular and discontinuous signals. Here a clear improvement of perceptual reconstruction quality and reconstruction MSE from the TAEdgeCodec model to the UniEdgeCodec model can be seen. 
 
-The pattern that the irregular and discontinuous signals (``Amps'' for the Volvo EMOB dataset and ``Windspeed'', ``Visibility'', ``Tdewpoint'' for the appliances energy dataset) are consistently improved by the UniEdgeCodec model holds, when observing the signal-specific metrics holistically. It should be noted that the smooth and continuous signals tend to pay a bit in terms of reconstruction quality for the improvements in the irregular and discontinuous signals, and that the ``lights'' signal suffers the worst loss in correlation when comparing the TAEdgeCodec metrics to the UniEdgeCodec metrics. Table~\ref{tab:uni-ta-signal-specific} presents the mean MSE and correlation, with standard deviations over seeds, for each signal in both the EMOB and appliances energy datasets.
+The pattern that the irregular and discontinuous signals (``Amps'' for the Volvo EMOB dataset and ``Windspeed'', ``Visibility'', ``Tdewpoint'' for the appliances energy dataset) are consistently improved by the UniEdgeCodec model holds, when observing the signal-specific metrics holistically. It should be noted that the smooth and continuous signals tend to pay a bit in terms of reconstruction quality for the improvements in the irregular and discontinuous signals, and that signals like ``lights'', ``RH\_out'', and ``T\_out'' are significantly better when comparing the TAEdgeCodec metrics to the UniEdgeCodec metrics. Table~\ref{tab:uni-ta-signal-specific} presents the mean MSE and correlation, with standard deviations over seeds, for each signal in both the EMOB and appliances energy datasets.
 
 \begin{table}[H]
 \centering
@@ -174,7 +174,33 @@ EdgeCodec & 0.038 $\pm$ 0.028 & 0.780 $\pm$ 0.034 & 65.1 $\pm$ 10.8\% & 0.490 $\
 
 The EdgeCodec results are a useful baseline because they show that strong reconstruction does not automatically translate into the best downstream behaviour. On EMOB, the model is competitive but not as stable as UniEdgeCodec. For the appliances energy dataset, the reconstruction is solid and the regression utility retention is high, which makes the model a strong reference point for the UniEdgeCodec and TAEdgeCodec implementations.
 
-The observation made for the TAEdgeCodec and UniEdgeCodec models about a correlation between reconstruction quality and utility retention in the Volvo EMOB case can also be made for the EdgeCodec model. Further, the EdgeCodec model also exhibits similar struggles to the TAEdgeCodec model when reconstructing irregular and discontinuous signals.
+The observation made for the TAEdgeCodec and UniEdgeCodec models about a correlation between reconstruction quality and utility retention in the Volvo EMOB case can also be made for the EdgeCodec model. Further, the EdgeCodec model also exhibits similar struggles to the TAEdgeCodec model when reconstructing irregular and discontinuous signals, but performs well on the reconstruction of smooth and continuous signals. The complete per-signal reconstruction metrics are displayed in Table~\ref{tab:edge-signal-specific}.
+
+\begin{table}[H]
+\centering
+\small
+\caption{Per-signal reconstruction metrics for EdgeCodec across EMOB and appliances energy datasets.}
+\label{tab:edge-signal-specific}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{llcc}
+\hline
+Dataset & Signal & EdgeCodec MSE $\downarrow$ & EdgeCodec Corr. $\uparrow$ \\
+\hline
+EMOB & Amps & 0.045 $\pm$ 0.003 & 0.376 $\pm$ 0.074 \\
+EMOB & Volts & 0.019 $\pm$ 0.018 & 0.991 $\pm$ 0.009 \\
+EMOB & Temp 1 & 0.050 $\pm$ 0.066 & 0.973 $\pm$ 0.035 \\
+\hline
+Appliances Energy & lights & 0.125 $\pm$ 0.042 & 0.683 $\pm$ 0.061 \\
+Appliances Energy & Press\_mm\_hg & 0.354 $\pm$ 0.041 & 0.906 $\pm$ 0.012 \\
+Appliances Energy & T\_out & 0.630 $\pm$ 0.177 & 0.907 $\pm$ 0.026 \\
+Appliances Energy & RH\_out & 0.696 $\pm$ 0.189 & 0.877 $\pm$ 0.039 \\
+Appliances Energy & Windspeed & 0.559 $\pm$ 0.120 & 0.426 $\pm$ 0.227 \\
+Appliances Energy & Visibility & 0.494 $\pm$ 0.107 & 0.545 $\pm$ 0.145 \\
+Appliances Energy & Tdewpoint & 0.573 $\pm$ 0.018 & 0.104 $\pm$ 0.182 \\
+\hline
+\end{tabular}%
+}
+\end{table}
 
 \subsection{TCN-RNN}
 
