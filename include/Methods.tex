@@ -50,9 +50,9 @@ L(x, \hat{x}, z, \tilde{z}, \lambda_{TV}, \lambda_{peak}, \lambda_{TV+peak}, \et
 
 \subsection{TAEdgeCodec}
 
-Task-aware or task-oriented neural compression has seen an increase in popularity as more and more data is purely used for downstream task models and not human perception. As Yang et al.~\cite{Yang2022} note, here perceptual quality is irrelevant and the main focus lies on optimizing for the IB problem introduced in Chapter~\ref{chap:theory}. Making a compression model task-aware is achieved by either pre-training or end-to-end training a task head and adding the task loss to the autoencoder loss~\cite{Song2021, Yang2022}. 
+Task-aware or task-oriented neural compression has seen an increase in popularity as more and more data is purely used for downstream task models and not human perception. As Yang et al.~\cite{Yang2022} note, here perceptual quality is irrelevant and the main focus lies on optimizing for the information bottleneck problem introduced in Chapter~\ref{chap:theory}. Making a compression model task-aware is achieved by either pre-training or end-to-end training a task head and adding the task loss to the AE loss~\cite{Song2021, Yang2022}. 
 
-To add task-awareness to the EdgeCodec architecture, an end-to-end approach is implemented, which, depending on the dataset, learns a simple classification or regression head and adds the task-loss to the autoencoder loss. The resulting loss function looks as follows: 
+To add task-awareness to the EdgeCodec architecture, an end-to-end approach is implemented, which, depending on the dataset, learns a simple classification or regression head and adds the task-loss to the AE loss. The resulting loss function looks as follows: 
 
 \begin{equation}
 L(x, \hat{x}, z, \tilde{z}, y, \hat{y}) = \alpha \cdot L_\mathrm{MSE}(x, \hat{x}) + (1 - \alpha) \cdot L_{l1\mathrm{-smooth}}(x, \hat{x}) + \eta \cdot L_\mathrm{RVQ}(z, \tilde{z}) + \gamma \cdot L_\mathrm{task}(y, \hat{y})
