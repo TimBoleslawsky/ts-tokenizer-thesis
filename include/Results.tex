@@ -11,7 +11,7 @@ TAEdgeCodec does not consistently improve upon the EdgeCodec model in terms of u
 
 EdgeCodec remains a strong reconstructor, especially on the regression task. On EMOB, its mean correlation is \(0.780 \pm 0.034\) and its utility retention is \(65.1 \pm 10.8\%\). For the appliances energy dataset, the corresponding values are \(0.635 \pm 0.061\) and \(90.1 \pm 1.9\%\). The model is therefore competitive on reconstruction, but its utility retention is less stable than UniEdgeCodec on EMOB, and its reconstruction is generally weaker on the more difficult channels. The training stability of EdgeCodec lies somewhere between the stable UniEdgeCodec model and the unstable TAEdgeCodec model.
 
-TCN-RNN is consistently weaker than the discrete-latent methods under compression. On EMOB, it reaches a mean correlation of 0.726 with a compression ratio of only 3.0x, while the discrete-latent methods operate at roughly 205x to 214x compression. For the appliances energy dataset, the baseline reaches a mean correlation of 0.651 and a compression ratio of 7.0x, again below the discrete-latent methods in both reconstruction quality and compression strength.
+TCN-RNN is consistently weaker than the discrete-latent methods under compression. On EMOB, it reaches a mean correlation of 0.726 with a CR of only 3.0x, while the discrete-latent methods operate at roughly 205x to 214x compression. For the appliances energy dataset, the baseline reaches a mean correlation of 0.651 and a CR of 7.0x, again below the discrete-latent methods in both reconstruction quality and compression strength.
 
 Across the EMOB runs, utility retention is more closely tied to reconstruction quality than for the runs on the appliances energy dataset. For the EMOB use case, it generally holds that better reconstruction MSE and better reconstruction correlation lead to better utility retention.
 
@@ -204,7 +204,7 @@ Appliances Energy & Tdewpoint & 0.573 $\pm$ 0.018 & 0.104 $\pm$ 0.182 \\
 
 \subsection{TCN-RNN}
 
-The TCN-RNN baseline is reported separately because it is not evaluated across the same seed set as the discrete-latent models. Its lower compression ratio makes it a weaker comparator for the compression-utility trade-off, but it still provides a clear lower baseline for reconstruction quality.
+The TCN-RNN baseline is reported separately because it is not evaluated across the same seed set as the discrete-latent models. Its lower CR makes it a weaker comparator for the compression-utility trade-off, but it still provides a clear lower baseline for reconstruction quality.
 
 \begin{table}[H]
 \centering
@@ -223,7 +223,7 @@ Appliances Energy Dataset & 0.771 & 0.651 & n/a & 7.0x \\
 }
 \end{table}
 
-The TCN-RNN baseline is clearly behind the discrete-latent models in compression efficiency. Even where reconstruction is acceptable, the much lower compression ratio makes it less compelling than the discrete alternatives. Increasing the compression ratio from 3x to only 7x already massively deteriorates the reconstruction quality.
+The TCN-RNN baseline is clearly behind the discrete-latent models in compression efficiency. Even where reconstruction is acceptable, the much lower CR makes it less compelling than the discrete alternatives. Increasing the CR from 3x to only 7x already massively deteriorates the reconstruction quality.
 
 
 
