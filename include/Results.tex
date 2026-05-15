@@ -123,13 +123,13 @@ When looking at signal-specific failure modes, a pattern becomes clear. UniEdgeC
     \includegraphics[width=\linewidth]{figure/amps-uniedgecodec.png}
     \end{minipage}
 }
-\caption{Reconstruction of representative smooth and irregular signals. In each subfigure, the TAEdgeCodec reconstruction is shown on the left and the UniEdgeCodec reconstruction is shown on the right.}
+\caption{Reconstruction of representative smooth and irregular signals. In each subfigure, the TAEdgeCodec reconstruction is shown on the top and the UniEdgeCodec reconstruction is shown on the bottom.}
 \label{fig:signal-comparison}
 \end{figure}
 
 Figure~\ref{fig:amps-signal} shows the reconstruction of the ``Amps'' signal, which exemplifies the behavior of these models for irregular and discontinuous signals. Here a clear improvement of perceptual reconstruction quality and reconstruction MSE from the TAEdgeCodec model to the UniEdgeCodec model can be seen. 
 
-The pattern that the irregular and discontinuous signals (``Amps'' for the Volvo EMOB dataset and ``Windspeed'', ``Visibility'', ``Tdewpoint'' for the appliances energy dataset) are consistently improved by the UniEdgeCodec model holds, when observing the signal-specific metrics holistically. It should be noted that the smooth and continuous signals tend to pay a bit in terms of reconstruction quality for the improvements in the irregular and discontinuous signals, and that signals like ``lights'', ``RH\_out'', and ``T\_out'' are significantly better when comparing the TAEdgeCodec metrics to the UniEdgeCodec metrics. Table~\ref{tab:uni-ta-signal-specific} presents the mean MSE and correlation, with standard deviations over seeds, for each signal in both the EMOB and appliances energy datasets.
+The pattern that the irregular and discontinuous signals (``Amps'' for the Volvo EMOB dataset and ``Windspeed'', ``Visibility'', ``Tdewpoint'' for the appliances energy dataset) are consistently improved by the UniEdgeCodec model holds, when observing the signal-specific metrics holistically. Although the UniEdgeCodec improve reconstruction quality for irregular and discontinuous signals, such as ``Amps'' and ``T\_out'', the reconstruction of the smooth and continuous signals is usually degraded. Table~\ref{tab:uni-ta-signal-specific} presents the mean MSE and correlation, with standard deviations over seeds, for each signal in both the EMOB and appliances energy datasets.
 
 \begin{table}[H]
 \centering

@@ -13,10 +13,10 @@ Masterarbeit
 - Jiang2025 (I missed this one)
 - “The loss function of the EdgeCodec architecture heavily favors continuous signals and discourages flat regions and sharp edges” => flat regions is wrong and in general it is too concrete. (Done probably)
 - HR_out typo (Done)
-- Double check signal classification + make a note why 300-300 range makes sense. (Made a note about 300-300, signal types are correct with config, double check)
+- Double check signal classification + make a note why 300-300 range makes sense. (Made a note about 300-300, signal types are correct with config, double check signal in previous section of method)
 - Image labels larger and double check the figures
 - interquartile-range remove or make more clear that its not our script (Made it more clear that it was produced by volvo)
-- Figure 5.1 description is wrong (left right vs. top bottom)
+- Figure 5.1 description is wrong (Done)
 - “It should be noted that the smooth…” restructure and fix wording a bit. 
 - Tables, highlight the tables a bit (e.g. Table 4 and also add a column here).
 - Key findings should focus more on the main findings
