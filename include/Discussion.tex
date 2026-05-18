@@ -1,7 +1,6 @@
 % CREATED BY DAVID FRISK, 2016
 \chapter{Discussion}
 
-<<<<<<< HEAD
 This chapter provides further discussion and interpretation of the results previously presented in the Results chapter. 
 
 \subsection{Research Questions} 
@@ -13,9 +12,6 @@ RQ2 relates to the utility retention of the selected neural compression methods.
 RQ3 relates to the limitations of the existing methods (EdgeCodec) and how to mitigate these limitations. The results here show that the partitioned codebook design of the UniEdgeCodec is somewhat effective at improving signal reconstruction quality, in terms of correlation, training stability and perceptual quality but does not always lead to improved utility retention. Using a task loss term, as in the TAEdgeCodec, can lead to improved utility retention, but struggles with training stability and reconstruction quality generally suffers as a result. 
 
 \subsection{Interpretation of Empirical Results} 
-=======
-\textbf{Research Question Synthesis} The results can be synthesized with respect to the three research questions. RQ1 relates to the performance of the selected neural compression methods on multimodal IoT data. While this question is broad and difficult to answer in a fully general sense, the results show that the discrete methods, EdgeCodec, UniEdgeCodec and TAEdgeCodec, are able to achieve high CRs of 200x+ while maintaining good reconstruction quality. The results also highlight that multimodal data creates additional challenges for compression methods, since the signals can have very different characteristics and therefore require tailored compression strategies. 
->>>>>>> d3c6ef03dc18805843519cd8bfab47e0cd776752
 
 RQ2 relates to the utility retention of the selected neural compression methods. As can be seen in the results, the utility retention is highly variable across random seeds, and the relationship between reconstruction quality and utility retention is complex and task-dependent. It is hard to definitively say which architecture favours utility retention the most, but it is clear that minimizing the loss of task relevant information is difficult at high CRs. 
 
