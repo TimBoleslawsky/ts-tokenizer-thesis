@@ -11,7 +11,9 @@
 \usepackage{amsmath}								% Mathematical expressions (American mathematical society)
 \usepackage{amssymb}								% Mathematical symbols (American mathematical society)
 \usepackage{graphicx}								% Figures
-\usepackage{subfig}									% Enables subfigures
+\usepackage{subfig}	
+\usepackage{booktabs}
+\usepackage{multirow}								% Enables subfigures
 \numberwithin{equation}{chapter}					% Numbering order for equations
 \numberwithin{figure}{chapter}						% Numbering order for figures
 \numberwithin{table}{chapter}						% Numbering order for tables
@@ -29,6 +31,15 @@
 \usepackage[skip=10pt]{parskip}								% Enables vertical spaces correctly 
 \usepackage{datetime2} % date formatting tools - ISO-date YYYY-MM-DD
 \usepackage{microtype} % Microtypography - improves readability and appearance of text.
+
+% For the tables
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{xcolor}
+\usepackage{colortbl}
+
+% Avoid large vertical stretch between blocks when float-heavy pages are balanced.
+\raggedbottom
 
 % Allows clickable links for references, in table of content, autoref, etc.  	
 \usepackage{hyperref}								
