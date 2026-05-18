@@ -29,7 +29,7 @@ The other important information theory concept to understand in the context of c
 \begin{equation}
 R(D) = \min_{p(\hat{X}|X):\ E[d(X,\hat{X})] \leq D} I(X;\hat{X}),
 \end{equation}
-where $d(x,\hat{x})$ is a distortion measure, e.g., squared error, $E[\cdot]$ is the average over all data points or expectation, and the minimum bitrate is computed over all distributions $p(\hat{X}|X)$ achieving average distortion at most $D$. Shannon's rate-distortion theorem proves this isn't just a theoretical lower bound and practical codes exist that get arbitrarily close to $R(D)$ bits/symbols while keeping distortion below $D$.~\cite{Shannon1949}.
+where $d(x,\hat{x})$ is a distortion measure, e.g., squared error, $E[\cdot]$ is the average over all data points or expectation, and the minimum bitrate is computed over all distributions $p(\hat{X}|X)$ achieving average distortion at most $D$. Shannon's rate-distortion theorem proves this isn't just a theoretical lower bound and practical codes exist that get arbitrarily close to $R(D)$ bits/symbols while keeping distortion below $D$~\cite{Shannon1949}.
 
 Distortion measures quantify the cost of representation between original data $X$ and its compressed reconstruction $\hat{X}$. They are essential in rate-distortion theory, where the goal is to minimize bitrate subject to $E[d(X,\hat{X})] \leq D$ for a chosen distortion threshold $D$. Widely used examples for distortion measures include the squared error (MSE) or the Hamming distance. MSE is defined as $d(x,\hat{x}) = {(x - \hat{x})}^2$, and is often used for numerical/time-series data due to its mathematical tractability. The Hamming distance on the other hand is defined as $d(x,\hat{x}) = \sum_i \mathbf{1}\{x_i \neq \hat{x}_i\}$, and is used for binary or categorical data~\cite[pp.~304--305]{Cover2006}.
 
@@ -128,7 +128,7 @@ The EdgeCodec encoder is intentionally lightweight. In essence, the EdgeCodec en
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.40\linewidth]{figure/edgecodec-encoder.png}
+\includegraphics[width=0.50\linewidth]{figure/edgecodec-encoder.png}
 \caption{EdgeCodec encoder} % Figure text below figure
 \label{fig:edgecodec-encoder}
 \end{figure}
@@ -137,7 +137,13 @@ Because the EdgeCodec encoder is purposefully kept lightweight, the authors comp
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.30\linewidth]{figure/edgecodec-decoder.png}
+\subfloat[EdgeCodec decoder\label{fig:edgecodec-decoder-pic}]{%
+    \includegraphics[width=0.45\linewidth]{figure/edgecodec-decoder.png}
+}
+\hfill
+\subfloat[Detailed EdgeCodec decoder block\label{fig:edgecodec-decoderblock}]{%
+    \includegraphics[width=0.45\linewidth]{figure/edgecodec-decoderblock.png}
+}
 \caption{EdgeCodec decoder} % Figure text below figure
 \label{fig:edgecodec-decoder}
 \end{figure}
@@ -151,3 +157,5 @@ L(x, \hat{x}, z, \tilde{z}, y, g) = \alpha \cdot L_\mathrm{MSE}(x, \hat{x}) + (1
 \end{equation}
 
 where $x$ is the input, $\hat{x}$ is the reconstructed output, $z$ and $\tilde{z}$ are the original and quantized latents, $y$ and $g$ represent the discriminator and generator outputs, and $\alpha, \eta, \gamma$ are weighting coefficients. As described before, for the purposes of this thesis, the adversarial training loss is omitted.
+
+Because the presented implementation of the EdgeCodec baseline is heavily based on the provided code by the authors and largely reproduced one to one, an experiment to validate the correctness of this reproduction of the EdgeCodec model is omitted.
